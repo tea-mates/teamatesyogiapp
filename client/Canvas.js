@@ -23,10 +23,13 @@ class Canvas extends React.Component {
   }
 
   render() {
+    const imgStyle = {
+      display: "none"
+    };
     return (
       <div>
         <canvas ref="canvas" width={640} height={425} />
-        <img ref="image" src={this.props.newPhoto} className="hidden" />
+        <img ref="image" src={this.props.newPhoto} style={imgStyle} />
       </div>
     );
   }

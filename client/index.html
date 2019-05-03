@@ -1,18 +1,28 @@
 <html>
   <head>
     <title>Yog-AI</title>
+    <!-- <link rel="stylesheet" href="./StyleSheets.css"></link> -->
+    <!-- <link
+      rel="stylesheet"
+      href="https://unpkg.com/mustard-ui@latest/dist/css/mustard-ui.min.css"
+    /> -->
+    <!-- <link -->
+    <!-- rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css"
+    /> -->
   </head>
   <body>
-    <div id="root"></div>
-    <script src="/bundle.js"></script>
-    <div class="camera">
-      <!--this is the video stream section-->
-      <video id="video">Video stream not available.</video>
+    <div id="root">
+      <script src="/bundle.js"></script>
+      <div class="camera">
+        <!--this is the video stream section-->
+        <video id="video">Video stream not available.</video>
+      </div>
+      <canvas id="canvas"> </canvas>
+      <!--this is where the captured image will appear-->
+      <!-- <div class="output">
+        <img id="photo" alt="The screen capture will appear in this box." />
+      </div> -->
     </div>
-    <canvas id="canvas"> </canvas>
-    <!--this is where the captured image will appear-->
-    <!-- <div class="output">
-      <img id="photo" alt="The screen capture will appear in this box." />
-    </div> -->
   </body>
 </html>

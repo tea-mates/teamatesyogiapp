@@ -17,6 +17,7 @@
     "@tensorflow/tfjs": "^1.1.2",
     "express": "^4.16.4",
     "morgan": "^1.9.1",
+    "mustard-ui": "0.0.8",
     "nodemon": "^1.19.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

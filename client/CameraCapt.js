@@ -31,7 +31,7 @@ class Camera extends React.Component {
           Take photo
         </button>
         {/* <img src={this.state.capturedImage} /> */}
-        <Canvas newPhoto={this.state.capturedImage} text="Example Text" />
+        <Canvas newPhoto={this.state.capturedImage} text="TEAmates" />
       </div>
     );
   }
