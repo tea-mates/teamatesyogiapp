@@ -1,16 +1,16 @@
-import React from 'react';
-import { Button } from './Buttons';
-import AllPoses from './AllPoses';
-import CountdownTimer from './CountdownTimer';
-import Camera from './Camera';
-import GameFunctions from './GameFunctions';
+import React from "react";
+import { Button } from "./Buttons";
+import AllPoses from "./AllPoses";
+import CountdownTimer from "./CountdownTimer";
+import Camera from "./Camera";
+import GameFunctions from "./GameFunctions";
 
 class GameLandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       startGame: false,
-      loadCamera: false,
+      loadCamera: false
     };
     this.displayCamera = this.displayCamera.bind(this);
     this.disableCountdown = this.disableCountdown.bind(this);
@@ -33,6 +33,9 @@ class GameLandingPage extends React.Component {
   render() {
     return (
       <div>
+        <audio ref="audio_tag" loop id="SlowHeat">
+          <source src="http://chirb.it/NHffPL" crossOrigin="anonymous" />
+        </audio>
         {this.state.gameOver ? (
           <ResultPage />
         ) : (
