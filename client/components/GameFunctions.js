@@ -1,13 +1,14 @@
-import React from 'react';
-import CountdownTimer from './CountdownTimer';
-import { connect } from 'react-redux';
-import { nextRound, beginCountdown } from '../store/game';
+import React from "react";
+import CountdownTimer from "./CountdownTimer";
+import { connect } from "react-redux";
+import { nextRound, beginCountdown, poseToDo } from "../store/game";
 
 class GameFunctions extends React.Component {
   constructor(props) {
     super(props);
 
     this.beginNextRound = this.beginNextRound.bind(this);
+    this.whichPoseIsBeingChecked = this.whichPoseIsBeingChecked.bind(this);
   }
 
   componentDidMount() {
@@ -29,6 +30,7 @@ class GameFunctions extends React.Component {
   componentDidUpdate() {
     if (this.props.poseSuccess) {
       this.props.beginCountdown();
+      this.whichPoseIsBeingChecked();
     }
   }
 
@@ -36,6 +38,27 @@ class GameFunctions extends React.Component {
     if (!this.props.countdown && !this.props.gameOver) {
       this.props.nextRound(this.props.poseSequence);
     }
+  }
+
+  whichPoseIsBeingChecked() {
+    const { poseSequence, poseToDo, poseSuccess } = this.props;
+    const l = poseSequence.length;
+    // for (let i = 0; i < l) {
+    //   let currPose = poseSequence[i];
+    //   poseToDo(currPose);
+    //   if(poseSuccess) {
+    //     i++
+    //   }
+    // }
+    let count = 0;
+    while (count < l) {
+      let currPose = poseSequence[count];
+      poseToDo(currPose);
+      if (poseSuccess) {
+        count++;
+      }
+    }
+    //if above while loop doesn't work, try setTimeout for 10 seconds
   }
 
   render() {
@@ -59,11 +82,13 @@ const mapState = state => ({
   poseSuccess: state.gameReducer.poseSuccess,
   gameOver: state.gameReducer.gameOver,
   poseSequence: state.gameReducer.poseSequence,
+  currentPoseInARound: state.gameReducer.currentPoseInARound //a string
 });
 
 const mapDispatch = dispatch => ({
   nextRound: poseSequence => dispatch(nextRound(poseSequence)),
   beginCountdown: () => dispatch(beginCountdown()),
+  poseToDo: pose => dispatch(poseToDo(pose))
 });
 
 export default connect(

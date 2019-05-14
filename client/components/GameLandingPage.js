@@ -1,17 +1,17 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import AllPoses from './AllPoses';
-import CountdownTimer from './CountdownTimer';
-import Camera from './Camera';
-import GameFunctions from './GameFunctions';
-import ResultPage from './ResultPage';
+import React from "react";
+import { connect } from "react-redux";
+import AllPoses from "./AllPoses";
+import CountdownTimer from "./CountdownTimer";
+import Camera from "./Camera";
+import GameFunctions from "./GameFunctions";
+import ResultPage from "./ResultPage";
 
 class GameLandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       startGame: false,
-      loadCamera: false,
+      loadCamera: false
     };
     this.displayCamera = this.displayCamera.bind(this);
     this.disableCountdown = this.disableCountdown.bind(this);
@@ -53,7 +53,7 @@ class GameLandingPage extends React.Component {
             </div>
 
             <div className="cameraDiv">
-              {this.state.loadCamera ? <Camera /> : <div />}
+              {this.state.loadCamera ? <Camera mode="game" /> : <div />}
             </div>
 
             <div className="allPosesDiv">
@@ -68,7 +68,7 @@ class GameLandingPage extends React.Component {
 
 const mapState = state => ({
   gameOver: state.gameReducer.gameOver,
-  gameRound: state.gameReducer.gameRound,
+  gameRound: state.gameReducer.gameRound
 });
 
 export default connect(mapState)(GameLandingPage);
