@@ -1,39 +1,37 @@
-import React from "react";
-import { connect } from "react-redux";
-import { beginCountdown } from "../store/game";
-import RoundPoseDisplay from "./RoundPoseDisplay";
+import React from 'react';
+import { connect } from 'react-redux';
+import { beginCountdown } from '../store/game';
+// import RoundPoseDisplay from "./RoundPoseDisplay";
 
 const poses = [
   {
-    name: "MountainPose", //the images need to be updated
-    imageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Mr-yoga-mountain-pose-bound_hands.jpg/747px-Mr-yoga-mountain-pose-bound_hands.jpg",
-    highlight: ""
+    name: 'TreePose', //the images need to be updated
+    imageUrl: 'https://i.imgur.com/MWPBVms.png',
+    highlight: 'https://i.imgur.com/GoTbFCM.png',
   },
   {
-    name: "HalfMoonPose",
-    imageUrl: "https://i.imgur.com/VKn1Z7q.png",
-    highlight: ""
+    name: 'GarlandPose',
+    imageUrl: 'https://i.imgur.com/aDSbScd.png',
+    highlight: 'https://i.imgur.com/KSdMqQT.png',
   },
   {
-    name: "GarlandPose",
-    imageUrl: "https://i.imgur.com/16JLzA4.png",
-    highlight: ""
+    name: 'MountainPose',
+    imageUrl: 'https://i.imgur.com/2HvvGW0.png',
+    highlight: 'https://i.imgur.com/y4e9Sxj.png',
   },
   {
-    name: "TreePose", //the images need to be updated
-    imageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Tree_pose.JPG/428px-Tree_pose.JPG",
-    highlight: ""
-  }
+    name: 'ShivaTwist', //the images need to be updated
+    imageUrl: 'https://i.imgur.com/LXeq1aU.png',
+    highlight: 'https://i.imgur.com/MGn4IU1.png',
+  },
 ];
 
 class AllPoses extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      poseBeingHighlighted: "",
-      poseTimeframeMs: 2000 //this controls how long each pose is highlighted for
+      poseBeingHighlighted: '',
+      poseTimeframeMs: 2000, //this controls how long each pose is highlighted for
     };
   }
 
@@ -64,7 +62,7 @@ class AllPoses extends React.Component {
     //will need to state the countdown once sequence of poses is show to the user
     (l => {
       setTimeout(() => {
-        this.setState({ poseBeingHighlighted: "" });
+        this.setState({ poseBeingHighlighted: '' });
         beginCountdown();
       }, poseTimeframeMs * l);
     })(l); //this invokes the outer anon fn
@@ -76,7 +74,7 @@ class AllPoses extends React.Component {
     return (
       <div>
         {gameRound === 0 ? <div /> : <h1>Round {gameRound}</h1>}
-        <RoundPoseDisplay />
+        {/* <RoundPoseDisplay /> */}
         <div className="allPoseImages">
           <div className="poseContainer">
             {poses.map((pose, i) => {
@@ -99,11 +97,11 @@ class AllPoses extends React.Component {
 
 const mapState = state => ({
   poseSequence: state.gameReducer.poseSequence,
-  gameRound: state.gameReducer.gameRound
+  gameRound: state.gameReducer.gameRound,
 });
 
 const mapDispatchToProps = dispatch => ({
-  beginCountdown: () => dispatch(beginCountdown())
+  beginCountdown: () => dispatch(beginCountdown()),
 });
 
 export default connect(

@@ -13,18 +13,18 @@ class GameLandingPage extends React.Component {
       startGame: false,
       loadCamera: false,
     };
-    this.displayCamera = this.displayCamera.bind(this);
+    // this.displayCamera = this.displayCamera.bind(this);
     this.disableCountdown = this.disableCountdown.bind(this);
   }
 
   componentDidMount() {
-    setTimeout(this.displayCamera, 8000);
+    setTimeout(this.disableCountdown, 11000);
   }
 
-  displayCamera() {
-    this.setState({ loadCamera: true });
-    setTimeout(this.disableCountdown, 3000);
-  }
+  // displayCamera() {
+  //   // this.setState({ loadCamera: true });
+  //   setTimeout(this.disableCountdown, 3000);
+  // }
 
   disableCountdown() {
     //remove the countdown from view and begin running the game in gameFunctions component
@@ -53,7 +53,7 @@ class GameLandingPage extends React.Component {
             </div>
 
             <div className="cameraDiv">
-              {this.state.loadCamera ? <Camera /> : <div />}
+              {this.props.cameraLoad ? <Camera /> : <div />}
             </div>
 
             <div className="allPosesDiv">
@@ -69,6 +69,7 @@ class GameLandingPage extends React.Component {
 const mapState = state => ({
   gameOver: state.gameReducer.gameOver,
   gameRound: state.gameReducer.gameRound,
+  cameraLoad: state.gameReducer.cameraLoad,
 });
 
 export default connect(mapState)(GameLandingPage);

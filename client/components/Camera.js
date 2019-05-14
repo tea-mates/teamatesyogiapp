@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import * as posenet from '@tensorflow-models/posenet';
 import { detectPose, poseDetectionFrame } from '../poseNetFunc';
 import { connect } from 'react-redux';
-import { updateStop } from '../store/trainer'
+import { updateStop } from '../store/trainer';
 import store from '../store';
 
 let stream = null;
@@ -47,6 +47,7 @@ class PoseNet extends Component {
   };
 
   async componentDidMount() {
+    console.log('camera on!');
     try {
       await this.setupCamera();
     } catch (error) {
@@ -70,7 +71,7 @@ class PoseNet extends Component {
       poseDetectionFrame,
       this.posenet,
       this.video,
-      this.props.poseName
+      this.props.currentPoseInARound
     );
     setTimeout(toggleStop, 11000);
   }
@@ -126,8 +127,8 @@ class PoseNet extends Component {
 }
 
 const mapState = (state, ownProps) => ({
-  countdown: state.gameReducer.countdown,
   poseSequence: state.gameReducer.poseSequence,
+  currentPoseInARound: state.gameReducer.currentPoseInARound,
 });
 
 const mapDispatch = dispatch => ({
