@@ -1,9 +1,10 @@
 import React from 'react';
 import SharingResults from './SharingResults';
 
-let percentage = 30;
+//let percentage = 30;
 
-export default function() {
+export default function(props) {
+  let percentage = props.percentage
   return (
     <div id="results">
       <div id="resultHeading">

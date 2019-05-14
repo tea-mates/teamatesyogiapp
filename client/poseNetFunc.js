@@ -3,7 +3,7 @@ import { compareObj, flatImageData, parts } from './Data/finalData';
 import { normArrGen } from './Data/flatArrGen';
 import { compare, cosineDistanceMatching } from './cosineFunc';
 import { stop } from './components/Camera';
-import { gotResult } from './store/trainer';
+import { gotResult,updateStop } from './store/trainer';
 import store from './store';
 
 export function detectPose(
@@ -111,7 +111,11 @@ export function poseDetectionFrame(canvasContext, props, posenet, argvideo,poseN
         }
       }
     });
-    if (!stop) requestAnimationFrame(findPoseDetectionFrame);
+    if (!stop) {
+      requestAnimationFrame(findPoseDetectionFrame)
+    }else{
+      store.dispatch(updateStop())
+    }
   };
 
   findPoseDetectionFrame();

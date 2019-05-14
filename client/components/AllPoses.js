@@ -73,6 +73,7 @@ class AllPoses extends React.Component {
     return (
       <div>
         {gameRound === 0 ? <div /> : <h1>Round {gameRound}</h1>}
+        <RoundPoseDisplay />
         <div className="allPoseImages">
           <div className="poseContainer">
             {poses.map((pose, i) => {

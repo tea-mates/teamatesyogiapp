@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import resetStop from '../store/trainer'
+import store from '../store';
 
 const poses = [
   {
@@ -42,7 +44,7 @@ const SelectTrainingPose = props => {
               }}
             > */}
             <Link to={`/train/${pose.name}`}>
-              <button className="button-primary-outlined">{pose.name}</button>
+              <button className="button-primary-outlined">{pose.name} </button>
             </Link>
           </div>
         );

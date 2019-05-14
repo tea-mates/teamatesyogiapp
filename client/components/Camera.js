@@ -1,9 +1,11 @@
 //import { drawKeyPoints, drawSkeleton } from './utils';
-import React, { Component } from 'react';
-import * as posenet from '@tensorflow-models/posenet';
-import { detectPose, poseDetectionFrame } from '../poseNetFunc';
-import { connect } from 'react-redux';
-import { nextRound, checkPoseSuccess, flipPoseSuccess } from '../store/game';
+import React, { Component } from "react";
+import * as posenet from "@tensorflow-models/posenet";
+import { detectPose, poseDetectionFrame } from "../poseNetFunc";
+import { connect } from "react-redux";
+import { updateStop } from "../store/trainer";
+import store from "../store";
+import { nextRound, checkPoseSuccess, flipPoseSuccess } from "../store/game";
 
 let stream = null;
 export let stop = null;
@@ -14,7 +16,7 @@ class PoseNet extends Component {
     videoWidth: 900,
     videoHeight: 700,
     flipHorizontal: true, // we dont flip, in canvas it is drawing on the other half
-    algorithm: 'single-pose',
+    algorithm: "single-pose",
     showVideo: true,
     showSkeleton: true,
     minPoseConfidence: 0.1, // at what accuracy of estimation you want to draw
@@ -23,16 +25,16 @@ class PoseNet extends Component {
     nmsRadius: 20,
     outputStride: 16,
     imageScaleFactor: 0.5,
-    skeletonColor: '#ffadea',
+    skeletonColor: "#ffadea",
     skeletonLineWidth: 6,
-    loadingText: 'Loading...please be patient...',
-    currentPoseInARound: '',
+    loadingText: "Loading...please be patient...",
+    currentPoseInARound: ""
   };
 
   constructor(props) {
     super(props, PoseNet.defaultProps);
     this.state = {
-      flag: true,
+      flag: true
     };
     this.detectPose = detectPose.bind(this);
     this.promptCamera = this.promptCamera.bind(this);
@@ -47,12 +49,6 @@ class PoseNet extends Component {
     this.video = elem;
     // console.log("in getVideo fn this refers to: ", this);
   };
-
-  componentWillUnmount() {
-    let track = stream.getTracks()[0];
-    track.stop();
-    stop = true;
-  }
 
   async componentDidMount() {
     await this.setupCamera();
@@ -84,7 +80,7 @@ class PoseNet extends Component {
     try {
       this.posenet = await posenet.load();
     } catch (error) {
-      throw new Error('PoseNet failed to load');
+      throw new Error("PoseNet failed to load");
     } finally {
       setTimeout(() => {
         this.setState({ loading: false });
@@ -106,7 +102,7 @@ class PoseNet extends Component {
   async setupCamera() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       throw new Error(
-        'Browser API navigator.mediaDevices.getUserMedia not available'
+        "Browser API navigator.mediaDevices.getUserMedia not available"
       );
     }
     const { videoWidth, videoHeight } = this.props;
@@ -117,10 +113,10 @@ class PoseNet extends Component {
     stream = await navigator.mediaDevices.getUserMedia({
       audio: false,
       video: {
-        facingMode: 'user',
+        facingMode: "user",
         width: videoWidth,
-        height: videoHeight,
-      },
+        height: videoHeight
+      }
     });
 
     video.srcObject = stream;
@@ -130,6 +126,11 @@ class PoseNet extends Component {
         resolve(video);
       };
     });
+  }
+  componentWillUnmount() {
+    let track = stream.getTracks()[0];
+    track.stop();
+    stop = true;
   }
 
   render() {
@@ -152,13 +153,13 @@ const mapState = (state, ownProps) => ({
   countdown: state.gameReducer.countdown,
   poseSequence: state.gameReducer.poseSequence,
   poseSuccess: state.gameReducer.poseSuccess,
-  currentPoseInARound: state.gameReducer.currentPoseInARound,
+  currentPoseInARound: state.gameReducer.currentPoseInARound
 });
 
 const mapDispatch = dispatch => ({
   checkPoseSuccess: () => dispatch(checkPoseSuccess()),
   nextRound: poseSequence => dispatch(nextRound(poseSequence)),
-  flipPoseSuccess: () => dispatch(flipPoseSuccess()),
+  flipPoseSuccess: () => dispatch(flipPoseSuccess())
 });
 
 export default connect(

@@ -9,12 +9,12 @@ export const Navbar = props => {
           <div className="nav-logo">
             <img
               className="nav-logo"
-              src="https://cdn.xl.thumbs.canstockphoto.com/logo-for-yoga-eps-vector_csp15097480.jpg"
+              src="https://www.freefavicon.com/freefavicons/abstract/rainbow-lotus-flower-silhouette-no-background-152-246078.png"
             />
           </div>
           <ul className="nav-links">
             <li>
-              <Link to="/aboutus">About</Link>
+              <Link to="/aboutus">About Us</Link>
             </li>
             <li>
               <Link to="/">Home</Link>
