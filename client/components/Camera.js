@@ -1,9 +1,9 @@
 //import { drawKeyPoints, drawSkeleton } from './utils';
-import React, { Component } from "react";
-import * as posenet from "@tensorflow-models/posenet";
-import { detectPose, poseDetectionFrame } from "../poseNetFunc";
-import { connect, dispatch } from "react-redux";
-import { nextRound, checkPoseSuccess, flipPoseSuccess } from "../store/game";
+import React, { Component } from 'react';
+import * as posenet from '@tensorflow-models/posenet';
+import { detectPose, poseDetectionFrame } from '../poseNetFunc';
+import { connect } from 'react-redux';
+import { nextRound, checkPoseSuccess, flipPoseSuccess } from '../store/game';
 
 let stream = null;
 export let stop = null;
@@ -14,7 +14,7 @@ class PoseNet extends Component {
     videoWidth: 900,
     videoHeight: 700,
     flipHorizontal: true, // we dont flip, in canvas it is drawing on the other half
-    algorithm: "single-pose",
+    algorithm: 'single-pose',
     showVideo: true,
     showSkeleton: true,
     minPoseConfidence: 0.1, // at what accuracy of estimation you want to draw
@@ -23,18 +23,20 @@ class PoseNet extends Component {
     nmsRadius: 20,
     outputStride: 16,
     imageScaleFactor: 0.5,
-    skeletonColor: "#ffadea",
+    skeletonColor: '#ffadea',
     skeletonLineWidth: 6,
-    loadingText: "Loading...please be patient..."
+    loadingText: 'Loading...please be patient...',
+    currentPoseInARound: '',
   };
 
   constructor(props) {
     super(props, PoseNet.defaultProps);
     this.state = {
-      flag: true
+      flag: true,
     };
     this.detectPose = detectPose.bind(this);
     this.promptCamera = this.promptCamera.bind(this);
+    this.setupCamera = this.setupCamera.bind(this);
   }
 
   getCanvas = elem => {
@@ -53,33 +55,36 @@ class PoseNet extends Component {
   }
 
   async componentDidMount() {
-    await this.promptCamera();
+    await this.setupCamera();
   }
 
   async componentDidUpdate() {
-    const { poseSuccess } = this.props;
-    if (poseSuccess) {
+    const { poseSuccess, countdown, flipPoseSuccess } = this.props;
+    if (countdown) {
       try {
+        await this.setupCamera();
         await this.promptCamera();
       } catch (error) {
         console.error(error);
       }
-      dispatch(flipPoseSuccess()); //resetting the poseSuccess value from true to false
+    }
+    if (poseSuccess) {
+      flipPoseSuccess();
     }
   }
 
   async promptCamera() {
-    try {
-      await this.setupCamera();
-    } catch (error) {
-      throw new Error(
-        "This browser does not support video capture, or this device does not have a camera"
-      );
-    }
+    // try {
+    //   await this.setupCamera();
+    // } catch (error) {
+    //   throw new Error(
+    //     'This browser does not support video capture, or this device does not have a camera'
+    //   );
+    // }
     try {
       this.posenet = await posenet.load();
     } catch (error) {
-      throw new Error("PoseNet failed to load");
+      throw new Error('PoseNet failed to load');
     } finally {
       setTimeout(() => {
         this.setState({ loading: false });
@@ -93,7 +98,7 @@ class PoseNet extends Component {
       poseDetectionFrame,
       this.posenet,
       this.video,
-      this.props.poseName
+      this.props.currentPoseInARound
     );
     setTimeout(toggleStop, 11000);
   }
@@ -101,7 +106,7 @@ class PoseNet extends Component {
   async setupCamera() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       throw new Error(
-        "Browser API navigator.mediaDevices.getUserMedia not available"
+        'Browser API navigator.mediaDevices.getUserMedia not available'
       );
     }
     const { videoWidth, videoHeight } = this.props;
@@ -112,10 +117,10 @@ class PoseNet extends Component {
     stream = await navigator.mediaDevices.getUserMedia({
       audio: false,
       video: {
-        facingMode: "user",
+        facingMode: 'user',
         width: videoWidth,
-        height: videoHeight
-      }
+        height: videoHeight,
+      },
     });
 
     video.srcObject = stream;
@@ -147,13 +152,13 @@ const mapState = (state, ownProps) => ({
   countdown: state.gameReducer.countdown,
   poseSequence: state.gameReducer.poseSequence,
   poseSuccess: state.gameReducer.poseSuccess,
-  currentPoseInARound: state.gameReducer.currentPoseInARound
+  currentPoseInARound: state.gameReducer.currentPoseInARound,
 });
 
 const mapDispatch = dispatch => ({
   checkPoseSuccess: () => dispatch(checkPoseSuccess()),
   nextRound: poseSequence => dispatch(nextRound(poseSequence)),
-  flipPoseSuccess: () => dispatch(flipPoseSuccess())
+  flipPoseSuccess: () => dispatch(flipPoseSuccess()),
 });
 
 export default connect(

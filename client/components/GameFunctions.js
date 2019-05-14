@@ -1,7 +1,7 @@
-import React from "react";
-import CountdownTimer from "./CountdownTimer";
-import { connect } from "react-redux";
-import { nextRound, beginCountdown, poseToDo } from "../store/game";
+import React from 'react';
+import CountdownTimer from './CountdownTimer';
+import { connect } from 'react-redux';
+import { nextRound, beginCountdown, poseToDo } from '../store/game';
 
 class GameFunctions extends React.Component {
   constructor(props) {
@@ -30,6 +30,9 @@ class GameFunctions extends React.Component {
   componentDidUpdate() {
     if (this.props.poseSuccess) {
       this.props.beginCountdown();
+    }
+
+    if (this.props.countdown) {
       this.whichPoseIsBeingChecked();
     }
   }
@@ -43,6 +46,7 @@ class GameFunctions extends React.Component {
   whichPoseIsBeingChecked() {
     const { poseSequence, poseToDo, poseSuccess } = this.props;
     const l = poseSequence.length;
+
     // for (let i = 0; i < l) {
     //   let currPose = poseSequence[i];
     //   poseToDo(currPose);
@@ -58,6 +62,8 @@ class GameFunctions extends React.Component {
         count++;
       }
     }
+
+    // poseToDo(poseSequence[0]);
     //if above while loop doesn't work, try setTimeout for 10 seconds
   }
 
@@ -82,13 +88,13 @@ const mapState = state => ({
   poseSuccess: state.gameReducer.poseSuccess,
   gameOver: state.gameReducer.gameOver,
   poseSequence: state.gameReducer.poseSequence,
-  currentPoseInARound: state.gameReducer.currentPoseInARound //a string
+  currentPoseInARound: state.gameReducer.currentPoseInARound, //a string
 });
 
 const mapDispatch = dispatch => ({
   nextRound: poseSequence => dispatch(nextRound(poseSequence)),
   beginCountdown: () => dispatch(beginCountdown()),
-  poseToDo: pose => dispatch(poseToDo(pose))
+  poseToDo: pose => dispatch(poseToDo(pose)),
 });
 
 export default connect(

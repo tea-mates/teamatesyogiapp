@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect, dispatch } from 'react-redux';
-import { beginCountdown, poseToDo } from '../store/game';
+import { beginCountdown } from '../store/game';
 
 const poses = [
   {
