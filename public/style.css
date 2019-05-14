@@ -44,6 +44,12 @@
   margin: 10px;
 }
 
+.trainingImage {
+  width: 200px;
+  height: 200px;
+  margin: 10px;
+}
+
 .allPosesDiv {
   position: relative;
   top: 300px;

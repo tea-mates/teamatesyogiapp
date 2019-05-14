@@ -36,6 +36,7 @@ class PoseNet extends Component {
     this.detectPose = detectPose.bind(this);
     this.promptCamera = this.promptCamera.bind(this);
   }
+
   getCanvas = elem => {
     this.canvas = elem;
   };
@@ -75,7 +76,6 @@ class PoseNet extends Component {
         "This browser does not support video capture, or this device does not have a camera"
       );
     }
-
     try {
       this.posenet = await posenet.load();
     } catch (error) {
@@ -92,7 +92,8 @@ class PoseNet extends Component {
       this.canvas,
       poseDetectionFrame,
       this.posenet,
-      this.video
+      this.video,
+      this.props.poseName
     );
     setTimeout(toggleStop, 11000);
   }

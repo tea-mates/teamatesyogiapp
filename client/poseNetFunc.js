@@ -11,7 +11,8 @@ export function detectPose(
   argcanvas,
   poseDetectionFrame,
   posenet,
-  video
+  video,
+  poseName
 ) {
   const { videoWidth, videoHeight } = props;
   const canvas = argcanvas;
@@ -21,10 +22,10 @@ export function detectPose(
   canvas.width = videoWidth;
   canvas.height = videoHeight;
 
-  poseDetectionFrame(canvasContext, props, posenet, video);
+  poseDetectionFrame(canvasContext, props, posenet, video,poseName);
 }
 
-export function poseDetectionFrame(canvasContext, props, posenet, argvideo) {
+export function poseDetectionFrame(canvasContext, props, posenet, argvideo,poseName) {
   const {
     algorithm,
     imageScaleFactor,
@@ -64,7 +65,7 @@ export function poseDetectionFrame(canvasContext, props, posenet, argvideo) {
           'ShivaTwist',
         ];
 
-        let index = refPoses.indexOf('TreePose');
+        let index = refPoses.indexOf(poseName);
 
         let flatRefImage = flatImageData[index];
 
@@ -73,12 +74,8 @@ export function poseDetectionFrame(canvasContext, props, posenet, argvideo) {
         let minCosineDistance = compare(normArray1, flatRefImage);
         if (minCosineDistance > 0.4) {
           store.dispatch(gotResult('BadPose', minCosineDistance));
-          console.log(`Bad Pose`);
         } else {
           store.dispatch(gotResult(compareObj[index].pose, minCosineDistance));
-          console.log(
-            `Pose is ${compareObj[index].pose} and points ${minCosineDistance}`
-          );
         }
         break;
       }
