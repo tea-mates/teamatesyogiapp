@@ -2,7 +2,8 @@
 import React, { Component } from "react";
 import * as posenet from "@tensorflow-models/posenet";
 import { detectPose, poseDetectionFrame } from "../poseNetFunc";
-import { connect } from "react-redux";
+import { connect, dispatch } from "react-redux";
+import { nextRound, checkPoseSuccess, flipPoseSuccess } from "../store/game";
 
 let stream = null;
 export let stop = null;
@@ -62,7 +63,7 @@ class PoseNet extends Component {
       } catch (error) {
         console.error(error);
       }
-      dispatch(flipPoseSuccess()); //resetting the poseSuccess value from true to false NOT IN REDUX YET
+      dispatch(flipPoseSuccess()); //resetting the poseSuccess value from true to false
     }
   }
 
@@ -86,6 +87,7 @@ class PoseNet extends Component {
     }
 
     this.detectPose(
+      //is this where we know if it's successful?
       this.props,
       this.canvas,
       poseDetectionFrame,
@@ -143,13 +145,14 @@ class PoseNet extends Component {
 const mapState = (state, ownProps) => ({
   countdown: state.gameReducer.countdown,
   poseSequence: state.gameReducer.poseSequence,
-  poseSuccess: state.gameReducer.poseSuccess
+  poseSuccess: state.gameReducer.poseSuccess,
+  currentPoseInARound: state.gameReducer.currentPoseInARound
 });
 
 const mapDispatch = dispatch => ({
-  checkPoseSuccess: (result, confidence) =>
-    dispatch(checkPoseSuccess(result, confidence)),
-  nextRound: poseSequence => dispatch(nextRound(poseSequence))
+  checkPoseSuccess: () => dispatch(checkPoseSuccess()),
+  nextRound: poseSequence => dispatch(nextRound(poseSequence)),
+  flipPoseSuccess: () => dispatch(flipPoseSuccess())
 });
 
 export default connect(
