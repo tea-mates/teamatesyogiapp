@@ -36,8 +36,12 @@ class TrainingSinglePose extends React.Component {
         <div className="cameraDiv">
           <Camera poseName={this.props.match.params.poseName} />
         </div>
-        <p>poseName : {this.props.pose}</p>
-        <p>Score : {this.props.score}</p>
+        <div>
+          <p>poseName : {this.props.pose}</p>
+          {this.props.score > 0 ?
+          <p>Score : {parseInt((1-this.props.score)*100)}</p> :
+          <p>Score : 0</p>}
+        </div>
       </div>
     );
   }
