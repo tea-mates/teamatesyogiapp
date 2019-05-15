@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import resetStop from '../store/trainer'
-import store from '../store';
 
 const poses = [
   {

@@ -1,7 +1,6 @@
 import React from 'react';
 import SharingResults from './SharingResults';
-
-//let percentage = 30;
+import { Link } from 'react-router-dom';
 
 export default function(props) {
   let percentage = props.percentage
@@ -46,7 +45,12 @@ export default function(props) {
           </div>
         )}
       </div>
-      <SharingResults />
+      <div>
+        <Link to='/train'>
+          <button> All Poses</button>
+        </Link>
+        <div><SharingResults /></div>
+      </div>
     </div>
   );
 }

@@ -7,11 +7,10 @@ export const Navbar = props => {
       <nav>
         <div className="nav-container">
           <div className="nav-logo">
-            <img
-              className="nav-logo"
-              src="https://www.freefavicon.com/freefavicons/abstract/rainbow-lotus-flower-silhouette-no-background-152-246078.png"
-            />
+            <img className="nav-logo" src="/logo.png" />
           </div>
+          <div id="appName">Yogi Says</div>
+
           <ul className="nav-links">
             <li>
               <Link to="/aboutus">About Us</Link>

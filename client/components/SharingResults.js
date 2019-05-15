@@ -6,12 +6,13 @@ export default class SharingResults extends React.Component {
   }
 
   componentDidMount() {
-    const script = document.createElement("script");
-
-    script.src = `//platform-api.sharethis.com/js/sharethis.js#property=5cd32b213f59c700126bad69&product=sticky-share-buttons`;
-    script.async = true;
-
-    document.body.appendChild(script);
+    if(!document.getElementById('share')){
+      const script = document.createElement("script");
+      script.src = `//platform-api.sharethis.com/js/sharethis.js#property=5cd32b213f59c700126bad69&product=sticky-share-buttons`;
+      script.async = true;
+      script.id = 'share'
+      document.body.appendChild(script);
+    }
   }
 
   render() {

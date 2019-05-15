@@ -51,21 +51,13 @@ class PoseNet extends Component {
   };
 
   async componentDidMount() {
-    await this.setupCamera();
-  }
-
-  async componentDidUpdate() {
-    const { poseSuccess, countdown, flipPoseSuccess } = this.props;
-    if (countdown) {
-      try {
-        await this.setupCamera();
-        await this.promptCamera();
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    if (poseSuccess) {
-      flipPoseSuccess();
+    try {
+      stop = null;
+      await this.setupCamera();
+    } catch (error) {
+      throw new Error(
+        "This browser does not support video capture, or this device does not have a camera"
+      );
     }
   }
 
@@ -136,14 +128,8 @@ class PoseNet extends Component {
   render() {
     return (
       <div>
-        {this.state.flag ? (
-          <div>
-            <video id="videoNoShow" playsInline ref={this.getVideo} />
-            <canvas className="webcam" ref={this.getCanvas} />
-          </div>
-        ) : (
-          <div>Result</div>
-        )}
+        <video id="videoNoShow" playsInline ref={this.getVideo} />
+        <canvas className="webcam" ref={this.getCanvas} />
       </div>
     );
   }
