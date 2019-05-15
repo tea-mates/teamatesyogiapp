@@ -5,7 +5,10 @@ import {
   nextRound,
   beginCountdown,
   poseToDo,
-  gameOverThunk
+  gameOverThunk,
+  disableCountdown,
+  checkPoseSuccess,
+  flipPoseSuccess
 } from "../store/game";
 
 class GameFunctions extends React.Component {
@@ -50,47 +53,40 @@ class GameFunctions extends React.Component {
 
     if (countdown === true) {
       this.whichPoseIsBeingChecked();
-    } else if (countdown === false) gameOverThunk();
+    }
+    if (countdown === false) {
+      disableCountdown();
+      // gameOverThunk();
+    }
+    if (poseSuccess) {
+      this.props.flipPoseSuccess();
+      this.props.nextRound();
+    }
+    if (this.props.pose === this.props.poseName) {
+      this.props.checkPoseSuccess();
+    }
+    // else if (countdown === false) gameOverThunk();
     // else this.props.gameOverThunk();
   }
 
   beginNextRound() {
-    if (!this.props.countdown && !this.props.gameOver) {
-      this.props.nextRound(this.props.poseSequence);
+    if (this.props.countdown && !this.props.gameOver) {
+      this.props.nextRound();
     }
   }
 
   whichPoseIsBeingChecked() {
     const { poseSequence, poseToDo, poseSuccess } = this.props;
     const l = poseSequence.length;
-
     for (let i = 0; i < l; i++) {
-      // let currPose = poseSequence[i];
-      // poseToDo(currPose);
-      // if (poseSuccess) {
-      //   i++;
-      // }
-
       (i => {
         //this anon fn slows down the for loop
         setTimeout(() => {
           let currPose = poseSequence[i];
           poseToDo(currPose);
-          // this.setState({ poseBeingHighlighted: currPose });
         }, 10000 * i);
       })(i);
     }
-    // let count = 0;
-    // while (count < l) {
-    //   let currPose = poseSequence[count];
-    //   poseToDo(currPose);
-    //   if (poseSuccess) {
-    //     count++;
-    //   }
-    // }
-
-    // poseToDo(poseSequence[0]);
-    //if above while loop doesn't work, try setTimeout for 10 seconds
   }
 
   render() {
@@ -114,14 +110,18 @@ const mapState = state => ({
   poseSuccess: state.gameReducer.poseSuccess,
   gameOver: state.gameReducer.gameOver,
   poseSequence: state.gameReducer.poseSequence,
-  currentPoseInARound: state.gameReducer.currentPoseInARound //a string
+  poseName: state.gameReducer.poseName, //a string
+  gameRound: state.gameReducer.gameRound,
+  pose: state.resultReducer.pose
 });
 
 const mapDispatch = dispatch => ({
   nextRound: poseSequence => dispatch(nextRound(poseSequence)),
   beginCountdown: () => dispatch(beginCountdown()),
   poseToDo: pose => dispatch(poseToDo(pose)),
-  gameOverThunk: () => dispatch(gameOverThunk())
+  gameOverThunk: () => dispatch(gameOverThunk()),
+  checkPoseSuccess: () => dispatch(checkPoseSuccess()),
+  flipPoseSuccess: () => dispatch(flipPoseSuccess())
 });
 
 export default connect(

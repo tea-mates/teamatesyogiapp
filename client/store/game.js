@@ -57,11 +57,11 @@ function _getRandomPose() {
 export const beginCountdown = () => {
   return dispatch => {
     dispatch(startCountdown());
-    setTimeout(() => {
-      dispatch({
-        type: DISABLE_COUNTDOWN
-      });
-    }, 10000);
+    // setTimeout(() => {
+    //   dispatch({
+    //     type: DISABLE_COUNTDOWN
+    //   });
+    // }, 10000);
   };
 };
 
@@ -78,21 +78,9 @@ export const poseToDo = pose => {
 };
 
 export const checkPoseSuccess = () => {
-  // console.log("You have to do -->", poseToShow);
   return dispatch => {
-    // const poseSequenceArr = state.poseSequence;
-    // const l = poseSequenceArr.length;
-    // for (let i = 0; i < l; i++) {
-    // let currPose = poseSequenceArr[i];
-    // if (currPose === result && confidence > 0.3) {
-    //do we need the confidence score for this game???
-    // i am not sure if we will want to use the confidence score as a measure of success since it is inconsistent
-    console.log(
-      "Success.. Pose done! move to next pose or if last pose, move to next round"
-    );
     dispatch(poseSuccess());
   };
-  // };
 };
 
 export const flipPoseSuccess = () => {
@@ -122,7 +110,7 @@ const defaultGame = {
   gameRound: 0,
   poseSequence: [],
   poseSuccess: false, //did they succeed to do the current pose
-  currentPoseInARound: "",
+  poseName: "",
   gameOver: false //set this to true if you reach 10 poses or you fail a pose
 };
 
@@ -136,7 +124,7 @@ export default function(state = defaultGame, action) {
     case DISABLE_COUNTDOWN:
       return { ...state, countdown: false };
     case NEXT_POSE_TO_DO:
-      return { ...state, currentPoseInARound: action.pose };
+      return { ...state, poseName: action.pose };
     case SUCCESS:
       return { ...state, poseSuccess: true };
     case RESET_POSE_SUCCESS:

@@ -59,13 +59,13 @@ class AllPoses extends React.Component {
       })(i); //this invokes the outer anon fn
     }
 
-    //will need to state the countdown once sequence of poses is show to the user
+    //will need to start the countdown once the sequence of poses is shown to the user
     (l => {
       setTimeout(() => {
         this.setState({ poseBeingHighlighted: "" });
         beginCountdown();
       }, poseTimeframeMs * l);
-    })(l); //this invokes the outer anon fn
+    })(l);
   };
 
   render() {

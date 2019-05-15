@@ -1,20 +1,21 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import AllPoses from './AllPoses';
-import CountdownTimer from './CountdownTimer';
-import Camera from './Camera';
-import GameFunctions from './GameFunctions';
-import ResultPage from './ResultPage';
+import React from "react";
+import { connect } from "react-redux";
+import AllPoses from "./AllPoses";
+import CountdownTimer from "./CountdownTimer";
+import Camera from "./Camera";
+import GameFunctions from "./GameFunctions";
+import ResultPage from "./ResultPage";
+import { gameOverThunk } from "../store/game";
 
 class GameLandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       startGame: false,
-      loadCamera: false,
+      loadCamera: false
     };
     this.displayCamera = this.displayCamera.bind(this);
-    this.disableCountdown = this.disableCountdown.bind(this);
+    this.disableGameStartCountdown = this.disableGameStartCountdown.bind(this);
   }
 
   componentDidMount() {
@@ -23,11 +24,11 @@ class GameLandingPage extends React.Component {
 
   displayCamera() {
     this.setState({ loadCamera: true });
-    setTimeout(this.disableCountdown, 3000);
+    setTimeout(this.disableGameStartCountdown, 3000);
   }
 
-  disableCountdown() {
-    //remove the countdown from view and begin running the game in gameFunctions component
+  disableGameStartCountdown() {
+    //   //remove the countdown from view and begin running the game in gameFunctions component
     this.setState({ startGame: true });
   }
 
@@ -53,7 +54,11 @@ class GameLandingPage extends React.Component {
             </div>
 
             <div className="cameraDiv">
-              {this.state.loadCamera ? <Camera mode="game" /> : <div />}
+              {this.state.loadCamera && this.props.poseName !== "" ? (
+                <Camera mode="game" poseName={this.props.poseName} />
+              ) : (
+                <div />
+              )}
             </div>
 
             <div className="allPosesDiv">
@@ -69,6 +74,14 @@ class GameLandingPage extends React.Component {
 const mapState = state => ({
   gameOver: state.gameReducer.gameOver,
   gameRound: state.gameReducer.gameRound,
+  poseName: state.gameReducer.poseName
 });
 
-export default connect(mapState)(GameLandingPage);
+const mapDispatch = dispatch => ({
+  gameOverThunk: () => dispatch(gameOverThunk())
+});
+
+export default connect(
+  mapState,
+  mapDispatch
+)(GameLandingPage);

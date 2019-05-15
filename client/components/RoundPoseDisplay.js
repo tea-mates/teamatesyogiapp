@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-//import { poseToDo } from "../store/game";
+import { poseToDo } from "../store/game";
 
 class RoundPoseDisplay extends React.Component {
   // componentDidUpdate() {
@@ -11,6 +11,7 @@ class RoundPoseDisplay extends React.Component {
   onChange(evt) {
     evt.preventDefault();
     const { poseToDo } = this.props;
+    console.log("the evt.target.keyname is: ", evt.target.keyname);
     poseToDo(evt.target.keyname);
   }
 
@@ -47,7 +48,7 @@ class RoundPoseDisplay extends React.Component {
 
 const mapState = state => ({
   poseSequence: state.gameReducer.poseSequence,
-  currentPoseInARound: state.gameReducer.currentPoseInARound
+  poseName: state.gameReducer.poseName
 });
 
 const mapDispatch = dispatch => ({

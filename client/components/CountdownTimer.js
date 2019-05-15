@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
 export default class CountdownTimer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      secondsLeft: 10,
+      secondsLeft: 10
     };
     this.timer = 0;
     this.startTimer = this.startTimer.bind(this);
@@ -13,6 +13,10 @@ export default class CountdownTimer extends React.Component {
 
   componentDidMount() {
     this.startTimer();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 
   startTimer() {
@@ -25,7 +29,7 @@ export default class CountdownTimer extends React.Component {
     // Remove one second, set state so a re-render happens.
     let seconds = this.state.secondsLeft - 1;
     this.setState({
-      secondsLeft: seconds,
+      secondsLeft: seconds
     });
 
     // Check if we're at zero.

@@ -5,12 +5,17 @@ import { detectPose, poseDetectionFrame } from "../poseNetFunc";
 import { connect } from "react-redux";
 import { updateStop } from "../store/trainer";
 import store from "../store";
-import { nextRound, checkPoseSuccess, flipPoseSuccess } from "../store/game";
+import {
+  nextRound,
+  checkPoseSuccess,
+  flipPoseSuccess,
+  poseToDo
+} from "../store/game";
 
 let stream = null;
 export let stop = null;
 
-class PoseNet extends Component {
+class Camera extends Component {
   static defaultProps = {
     //video sizing variables
     videoWidth: 900,
@@ -32,13 +37,15 @@ class PoseNet extends Component {
   };
 
   constructor(props) {
-    super(props, PoseNet.defaultProps);
+    super(props, Camera.defaultProps);
     this.state = {
       flag: true
     };
     this.detectPose = detectPose.bind(this);
-    this.promptCamera = this.promptCamera.bind(this);
+    // this.promptCamera = this.promptCamera.bind(this);
     this.setupCamera = this.setupCamera.bind(this);
+    this.getCanvas = this.getCanvas.bind(this);
+    this.getVideo = this.getVideo.bind(this);
   }
 
   getCanvas = elem => {
@@ -59,16 +66,6 @@ class PoseNet extends Component {
         "This browser does not support video capture, or this device does not have a camera"
       );
     }
-  }
-
-  async promptCamera() {
-    // try {
-    //   await this.setupCamera();
-    // } catch (error) {
-    //   throw new Error(
-    //     'This browser does not support video capture, or this device does not have a camera'
-    //   );
-    // }
     try {
       this.posenet = await posenet.load();
     } catch (error) {
@@ -78,18 +75,62 @@ class PoseNet extends Component {
         this.setState({ loading: false });
       }, 200);
     }
-
-    this.detectPose(
-      //is this where we know if it's successful?
-      this.props,
-      this.canvas,
-      poseDetectionFrame,
-      this.posenet,
-      this.video,
-      this.props.currentPoseInARound
-    );
+    //&& this.props.poseName !== ""
+    if (this.canvas) {
+      // if (this.props.poseName === "") {
+      //   poseToDo("ShivaTwist");
+      // }
+      console.log("the this.props.poseName is: ", this.props.poseName);
+      //before this is called there must be a poseName available
+      this.detectPose(
+        this.props,
+        this.canvas,
+        poseDetectionFrame,
+        this.posenet,
+        this.video,
+        this.props.poseName
+      );
+      if (this.props.pose === this.props.poseName) {
+        this.props.checkPoseSuccess();
+        this.props.flipPoseSuccess();
+      }
+    }
     setTimeout(toggleStop, 11000);
   }
+
+  // async promptCamera() {
+  //   try {
+  //     await this.setupCamera();
+  //   } catch (error) {
+  //     throw new Error(
+  //       "This browser does not support video capture, or this device does not have a camera"
+  //     );
+  //   }
+  //   try {
+  //     this.posenet = await posenet.load();
+  //   } catch (error) {
+  //     throw new Error("PoseNet failed to load");
+  //   } finally {
+  //     setTimeout(() => {
+  //       this.setState({ loading: false });
+  //     }, 200);
+  //   }
+
+  //   this.detectPose(
+  //     //is this where we know if it's successful?
+  //     this.props,
+  //     this.canvas,
+  //     poseDetectionFrame,
+  //     this.posenet,
+  //     this.video,
+  //     this.props.currentPoseInARound
+  //   );
+  //   if (this.props.pose === this.props.poseName) {
+  //     this.props.checkPoseSuccess();
+  //     this.props.flipPoseSuccess();
+  //   }
+  //   setTimeout(toggleStop, 11000);
+  // }
 
   async setupCamera() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -114,11 +155,13 @@ class PoseNet extends Component {
     video.srcObject = stream;
     return new Promise(resolve => {
       video.onloadedmetadata = () => {
+        //code from PoseNet, not sure how it works
         video.play();
         resolve(video);
       };
     });
   }
+
   componentWillUnmount() {
     let track = stream.getTracks()[0];
     track.stop();
@@ -139,19 +182,21 @@ const mapState = (state, ownProps) => ({
   countdown: state.gameReducer.countdown,
   poseSequence: state.gameReducer.poseSequence,
   poseSuccess: state.gameReducer.poseSuccess,
-  currentPoseInARound: state.gameReducer.currentPoseInARound
+  poseName: state.gameReducer.poseName,
+  pose: state.resultReducer.pose
 });
 
 const mapDispatch = dispatch => ({
   checkPoseSuccess: () => dispatch(checkPoseSuccess()),
   nextRound: poseSequence => dispatch(nextRound(poseSequence)),
-  flipPoseSuccess: () => dispatch(flipPoseSuccess())
+  flipPoseSuccess: () => dispatch(flipPoseSuccess()),
+  poseToDo: pose => dispatch(poseToDo(pose))
 });
 
 export default connect(
   mapState,
   mapDispatch
-)(PoseNet);
+)(Camera);
 
 export function toggleStop() {
   stop = true;
