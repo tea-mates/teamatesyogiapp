@@ -17,7 +17,7 @@ export default class SharingResults extends React.Component {
   render() {
     return (
       <div>
-        <div class="sharethis-inline-share-buttons" />
+        <div className="sharethis-inline-share-buttons" />
       </div>
     );
   }

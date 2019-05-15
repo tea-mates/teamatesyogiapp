@@ -3,9 +3,15 @@ import { connect } from "react-redux";
 import { poseToDo } from "../store/game";
 
 class RoundPoseDisplay extends React.Component {
-  componentDidUpdate() {
+  // componentDidUpdate() {
+  //   const { poseToDo } = this.props;
+  //   poseToDo();
+  // }
+
+  onChange(evt) {
+    evt.preventDefault();
     const { poseToDo } = this.props;
-    poseToDo();
+    poseToDo(evt.target.keyname);
   }
 
   render() {
@@ -19,16 +25,16 @@ class RoundPoseDisplay extends React.Component {
             <div key={idx} keyname={singlePose}>
               {singlePose === currentPoseInARound ? (
                 <button className="button-primary button-round button-small">
-                  {singlePose}
                   {idx}
+                  {singlePose}
                 </button>
               ) : (
                 <button
                   className="button-primary-outlined button-round button-small"
-                  sendthedispatch={() => this.props.poseToDo(singlePose)}
+                  onChange={() => this.onChange}
                 >
-                  {singlePose}
                   {idx}
+                  {singlePose}
                 </button>
               )}
             </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { beginCountdown } from "../store/game";
+import RoundPoseDisplay from "./RoundPoseDisplay";
 
 const poses = [
   {

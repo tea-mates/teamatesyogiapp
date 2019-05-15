@@ -1,11 +1,19 @@
 import React from "react";
 import CountdownTimer from "./CountdownTimer";
 import { connect } from "react-redux";
-import { nextRound, beginCountdown, poseToDo } from "../store/game";
+import {
+  nextRound,
+  beginCountdown,
+  poseToDo,
+  gameOverThunk
+} from "../store/game";
 
 class GameFunctions extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      nextPose: false
+    };
 
     this.beginNextRound = this.beginNextRound.bind(this);
     this.whichPoseIsBeingChecked = this.whichPoseIsBeingChecked.bind(this);
@@ -25,16 +33,25 @@ class GameFunctions extends React.Component {
     //    b. timeout / failure
 
     this.props.nextRound();
+    this.setState({ nextPose: true });
   }
 
   componentDidUpdate() {
-    if (this.props.poseSuccess) {
-      this.props.beginCountdown();
+    const {
+      poseSuccess,
+      countdown,
+      beginCountdown,
+      gameOverThunk
+    } = this.props;
+    if (this.state.nextPose === true) {
+      this.setState({ nextPose: false });
+      beginCountdown();
     }
 
-    if (this.props.countdown) {
+    if (countdown === true) {
       this.whichPoseIsBeingChecked();
-    }
+    } else if (countdown === false) gameOverThunk();
+    // else this.props.gameOverThunk();
   }
 
   beginNextRound() {
@@ -103,7 +120,8 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   nextRound: poseSequence => dispatch(nextRound(poseSequence)),
   beginCountdown: () => dispatch(beginCountdown()),
-  poseToDo: pose => dispatch(poseToDo(pose))
+  poseToDo: pose => dispatch(poseToDo(pose)),
+  gameOverThunk: () => dispatch(gameOverThunk())
 });
 
 export default connect(
