@@ -22,7 +22,7 @@ class RoundPoseDisplay extends React.Component {
         <h1 className="h2">You're on pose:</h1>
 
         {poseSequence.map((singlePose, idx) => {
-          console.log("singlePose: ", singlePose);
+          // console.log("singlePose: ", singlePose);
           // console.log("poseName: ", poseName);
           return (
             <div key={idx} keyname={singlePose}>

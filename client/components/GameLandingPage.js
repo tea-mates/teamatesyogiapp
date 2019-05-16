@@ -35,8 +35,6 @@ class GameLandingPage extends React.Component {
   render() {
     const isGameRound11 = this.props.gameRound === 11;
     const showResultPage = isGameRound11 || this.props.gameOver;
-    console.log({ isGameRound11 });
-    console.log("gameover", this.props.gameOver);
     return (
       <div>
         {showResultPage ? (

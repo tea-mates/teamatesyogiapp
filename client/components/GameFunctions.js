@@ -40,16 +40,18 @@ class GameFunctions extends React.Component {
     this.setState({ nextPose: true });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const {
       poseSuccess,
       countdown,
       beginCountdown,
       gameOverThunk,
       doEndFirstTimer,
-      firstTimer
+      firstTimer,
+      detectedPose,
+      expectedPose,
+      checkPoseSuccess
     } = this.props;
-    console.log("the props", this.props);
     // if (this.state.nextPose === true) {
     //   this.setState({ nextPose: false });
     //   beginCountdown();
@@ -71,7 +73,17 @@ class GameFunctions extends React.Component {
     //   this.props.flipPoseSuccess();
     //   // this.props.nextRound();
     // }
-    // if (this.props.pose === this.props.poseName) {
+
+    // for simulation !!!!
+    // if (!prevProps.expectedPose && this.props.expectedPose) {
+    //   setTimeout(checkPoseSuccess, 5000);
+    // }
+
+    const poseMatch = detectedPose === expectedPose;
+    if (poseMatch && !poseSuccess) {
+      checkPoseSuccess();
+    }
+    // if (this.props.pose === this.props.poseName) { //change pose to detectedPose and poseName to expectedPose
     //   this.props.checkPoseSuccess();
     // }
     // else if (countdown === false) gameOverThunk();
@@ -121,9 +133,9 @@ const mapState = state => ({
   poseSuccess: state.gameReducer.poseSuccess,
   gameOver: state.gameReducer.gameOver,
   poseSequence: state.gameReducer.poseSequence,
-  poseName: state.gameReducer.poseName, //a string
+  detectedPose: state.resultReducer.pose, // detected pose
+  expectedPose: state.gameReducer.poseName, // expected pose
   gameRound: state.gameReducer.gameRound,
-  pose: state.resultReducer.pose,
   firstTimer: state.gameReducer.firstTimer,
   poseBeingHighlighted: state.gameReducer.poseBeingHighlighted
 });
