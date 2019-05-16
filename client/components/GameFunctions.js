@@ -67,7 +67,7 @@ class GameFunctions extends React.Component {
     // }
     console.log("cdm", this.props);
 
-    // might need one more comparison here if we want round 2 to succeed
+    //%%%%%% might need one more comparison here if we want round 2 to succeed %%%%%%
     if (!countdown && !poseSuccess && !poseBeingHighlighted) {
       if (firstTimer) {
         doEndFirstTimer();

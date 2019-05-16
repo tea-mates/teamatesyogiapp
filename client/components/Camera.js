@@ -201,3 +201,8 @@ export default connect(
 export function toggleStop() {
   stop = true;
 }
+
+function togglePlayVideo() {
+  stop = false;
+  play = true; // not declared, but this might be something to implement to restart the camera when checking a 2nd/sequential pose in a single round
+}
