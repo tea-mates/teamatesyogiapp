@@ -129,13 +129,14 @@ export const highlightPose = pose => {
  */
 const defaultGame = {
   poses: ["TreePose", "GarlandPose", "MountainPose", "ShivaTwist"],
+  firstTimer: true,
   countdown: false,
   gameRound: 0,
+  poseBeingHighlighted: "default",
   poseSequence: [],
+  currentPoseSequenceIdx: -1, //the index of the current pose within a game round
   poseSuccess: false, //did they succeed to do the current pose
   poseName: "",
-  firstTimer: true,
-  poseBeingHighlighted: "default",
   gameOver: false //set this to true if you reach 10 poses or you fail a pose
 };
 
@@ -149,7 +150,11 @@ export default function(state = defaultGame, action) {
     case DISABLE_COUNTDOWN:
       return { ...state, countdown: false };
     case NEXT_POSE_TO_DO:
-      return { ...state, poseName: action.pose };
+      return {
+        ...state,
+        poseName: action.pose,
+        currentPoseSequenceIdx: state.currentPoseSequenceIdx + 1
+      };
     case SUCCESS:
       return { ...state, poseSuccess: true };
     case RESET_POSE_SUCCESS:
@@ -160,11 +165,15 @@ export default function(state = defaultGame, action) {
       return { ...state, firstTimer: false };
     case HIGHLIGHT_POSE:
       return { ...state, poseBeingHighlighted: action.pose };
+    // eslint-disable-next-line no-case-declarations
     case UPDATE_SEQUENCE:
+      const newPose = _getRandomPose();
       return {
         ...state,
-        poseSequence: [...state.poseSequence, _getRandomPose()],
-        gameRound: state.gameRound + 1
+        poseSequence: [...state.poseSequence, newPose],
+        gameRound: state.gameRound + 1,
+        currentPoseSequenceIdx: 0,
+        poseName: newPose
       };
     default:
       return state;
