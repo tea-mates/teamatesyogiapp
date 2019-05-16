@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { beginCountdown } from "../store/game";
+import { beginCountdown, highlightPose } from "../store/game";
 import RoundPoseDisplay from "./RoundPoseDisplay";
 
 const poses = [
@@ -30,7 +30,6 @@ class AllPoses extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      poseBeingHighlighted: "",
       poseTimeframeMs: 2000 //this controls how long each pose is highlighted for
     };
   }
@@ -46,7 +45,7 @@ class AllPoses extends React.Component {
   highlightPose() {}
 
   showSequence = () => {
-    const { poseSequence, beginCountdown } = this.props;
+    const { poseSequence, beginCountdown, highlightPose } = this.props;
     const { poseTimeframeMs } = this.state;
     const l = poseSequence.length;
     for (let i = 0; i < l; i++) {
@@ -54,7 +53,7 @@ class AllPoses extends React.Component {
         //this anon fn slows down the for loop
         setTimeout(() => {
           let currPose = poseSequence[i];
-          this.setState({ poseBeingHighlighted: currPose });
+          highlightPose(currPose);
         }, poseTimeframeMs * i);
       })(i); //this invokes the outer anon fn
     }
@@ -62,7 +61,7 @@ class AllPoses extends React.Component {
     //will need to start the countdown once the sequence of poses is shown to the user
     (l => {
       setTimeout(() => {
-        this.setState({ poseBeingHighlighted: "" });
+        highlightPose("");
         beginCountdown();
       }, poseTimeframeMs * l);
     })(l);
@@ -78,7 +77,7 @@ class AllPoses extends React.Component {
         <div className="allPoseImages">
           <div className="poseContainer">
             {poses.map((pose, i) => {
-              const { poseBeingHighlighted } = this.state;
+              const { poseBeingHighlighted } = this.props;
               const isPoseHighlighted = poseBeingHighlighted === pose.name;
               return (
                 <img
@@ -97,11 +96,13 @@ class AllPoses extends React.Component {
 
 const mapState = state => ({
   poseSequence: state.gameReducer.poseSequence,
-  gameRound: state.gameReducer.gameRound
+  gameRound: state.gameReducer.gameRound,
+  poseBeingHighlighted: state.gameReducer.poseBeingHighlighted
 });
 
 const mapDispatchToProps = dispatch => ({
-  beginCountdown: () => dispatch(beginCountdown())
+  beginCountdown: () => dispatch(beginCountdown()),
+  highlightPose: pose => dispatch(highlightPose(pose))
 });
 
 export default connect(

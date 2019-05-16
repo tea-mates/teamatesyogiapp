@@ -99,9 +99,11 @@ class GameFunctions extends React.Component {
   // }
 
   render() {
+    const { countdown, poseBeingHighlighted } = this.props;
+    const startCountdown = countdown && !poseBeingHighlighted;
     return (
       <div>
-        {this.props.countdown ? (
+        {startCountdown ? (
           <div className="countdownDiv">
             <h1>Do the pose!</h1>
             <CountdownTimer />
@@ -122,7 +124,8 @@ const mapState = state => ({
   poseName: state.gameReducer.poseName, //a string
   gameRound: state.gameReducer.gameRound,
   pose: state.resultReducer.pose,
-  firstTimer: state.gameReducer.firstTimer
+  firstTimer: state.gameReducer.firstTimer,
+  poseBeingHighlighted: state.gameReducer.poseBeingHighlighted
 });
 
 const mapDispatch = dispatch => ({

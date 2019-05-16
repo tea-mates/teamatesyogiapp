@@ -10,6 +10,7 @@ const DISABLE_COUNTDOWN = "DISABLE_COUNTDOWN";
 const UPDATE_SEQUENCE = "UPDATE_SEQUENCE";
 const NEXT_POSE_TO_DO = "NEXT_POSE_TO_DO";
 const END_FIRST_TIMER = "END_FIRST_TIMER";
+const HIGHLIGHT_POSE = "HIGHLIGHT_POSE";
 
 /**
  * ACTION CREATORS
@@ -46,6 +47,11 @@ const endCountdown = () => ({
 
 const endFirstTimer = () => ({
   type: END_FIRST_TIMER
+});
+
+const highlightPoseAction = pose => ({
+  type: HIGHLIGHT_POSE,
+  pose
 });
 
 /**
@@ -112,6 +118,12 @@ export const doEndFirstTimer = () => {
   };
 };
 
+export const highlightPose = pose => {
+  return dispatch => {
+    dispatch(highlightPoseAction(pose));
+  };
+};
+
 /**
  * INITIAL STATE
  */
@@ -123,6 +135,7 @@ const defaultGame = {
   poseSuccess: false, //did they succeed to do the current pose
   poseName: "",
   firstTimer: true,
+  poseBeingHighlighted: "default",
   gameOver: false //set this to true if you reach 10 poses or you fail a pose
 };
 
@@ -145,6 +158,8 @@ export default function(state = defaultGame, action) {
       return { ...state, gameOver: true };
     case END_FIRST_TIMER:
       return { ...state, firstTimer: false };
+    case HIGHLIGHT_POSE:
+      return { ...state, poseBeingHighlighted: action.pose };
     case UPDATE_SEQUENCE:
       return {
         ...state,
