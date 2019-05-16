@@ -16,7 +16,7 @@ class RoundPoseDisplay extends React.Component {
   }
 
   render() {
-    const { poseSequence, currentPoseInARound } = this.props;
+    const { poseSequence, poseName } = this.props;
     return (
       <div>
         <h1 className="h2">You're on pose:</h1>
@@ -24,7 +24,7 @@ class RoundPoseDisplay extends React.Component {
         {poseSequence.map((singlePose, idx) => {
           return (
             <div key={idx} keyname={singlePose}>
-              {singlePose === currentPoseInARound ? (
+              {singlePose === poseName ? (
                 <button className="button-primary button-round button-small">
                   {idx}
                   {singlePose}

@@ -90,10 +90,10 @@ class Camera extends Component {
         this.video,
         this.props.poseName
       );
-      if (this.props.pose === this.props.poseName) {
-        this.props.checkPoseSuccess();
-        this.props.flipPoseSuccess();
-      }
+      // if (this.props.pose === this.props.poseName) {
+      //   this.props.checkPoseSuccess();
+      //   this.props.flipPoseSuccess();
+      // }
     }
     setTimeout(toggleStop, 11000);
   }

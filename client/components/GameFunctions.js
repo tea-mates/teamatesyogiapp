@@ -8,7 +8,8 @@ import {
   gameOverThunk,
   disableCountdown,
   checkPoseSuccess,
-  flipPoseSuccess
+  flipPoseSuccess,
+  doEndFirstTimer
 } from "../store/game";
 
 class GameFunctions extends React.Component {
@@ -19,7 +20,7 @@ class GameFunctions extends React.Component {
     };
 
     this.beginNextRound = this.beginNextRound.bind(this);
-    this.whichPoseIsBeingChecked = this.whichPoseIsBeingChecked.bind(this);
+    // this.whichPoseIsBeingChecked = this.whichPoseIsBeingChecked.bind(this);
   }
 
   componentDidMount() {
@@ -44,27 +45,35 @@ class GameFunctions extends React.Component {
       poseSuccess,
       countdown,
       beginCountdown,
-      gameOverThunk
+      gameOverThunk,
+      doEndFirstTimer,
+      firstTimer
     } = this.props;
-    if (this.state.nextPose === true) {
-      this.setState({ nextPose: false });
-      beginCountdown();
-    }
+    console.log("the props", this.props);
+    // if (this.state.nextPose === true) {
+    //   this.setState({ nextPose: false });
+    //   beginCountdown();
+    // }
 
-    if (countdown === true) {
-      this.whichPoseIsBeingChecked();
-    }
+    // if (countdown === true) {
+    //   this.whichPoseIsBeingChecked();
+    // }
     if (countdown === false) {
-      disableCountdown();
+      if (firstTimer) {
+        doEndFirstTimer();
+        beginCountdown();
+      } else gameOverThunk();
+      console.log(this.props);
+      // disableCountdown();
       // gameOverThunk();
     }
-    if (poseSuccess) {
-      this.props.flipPoseSuccess();
-      this.props.nextRound();
-    }
-    if (this.props.pose === this.props.poseName) {
-      this.props.checkPoseSuccess();
-    }
+    // if (poseSuccess) {
+    //   this.props.flipPoseSuccess();
+    //   // this.props.nextRound();
+    // }
+    // if (this.props.pose === this.props.poseName) {
+    //   this.props.checkPoseSuccess();
+    // }
     // else if (countdown === false) gameOverThunk();
     // else this.props.gameOverThunk();
   }
@@ -75,19 +84,19 @@ class GameFunctions extends React.Component {
     }
   }
 
-  whichPoseIsBeingChecked() {
-    const { poseSequence, poseToDo, poseSuccess } = this.props;
-    const l = poseSequence.length;
-    for (let i = 0; i < l; i++) {
-      (i => {
-        //this anon fn slows down the for loop
-        setTimeout(() => {
-          let currPose = poseSequence[i];
-          poseToDo(currPose);
-        }, 10000 * i);
-      })(i);
-    }
-  }
+  // whichPoseIsBeingChecked() {
+  //   const { poseSequence, poseToDo, poseSuccess } = this.props;
+  //   const l = poseSequence.length;
+  //   for (let i = 0; i < l; i++) {
+  //     (i => {
+  //       //this anon fn slows down the for loop
+  //       setTimeout(() => {
+  //         let currPose = poseSequence[i];
+  //         poseToDo(currPose);
+  //       }, 10000 * i);
+  //     })(i);
+  //   }
+  // }
 
   render() {
     return (
@@ -112,7 +121,8 @@ const mapState = state => ({
   poseSequence: state.gameReducer.poseSequence,
   poseName: state.gameReducer.poseName, //a string
   gameRound: state.gameReducer.gameRound,
-  pose: state.resultReducer.pose
+  pose: state.resultReducer.pose,
+  firstTimer: state.gameReducer.firstTimer
 });
 
 const mapDispatch = dispatch => ({
@@ -121,7 +131,8 @@ const mapDispatch = dispatch => ({
   poseToDo: pose => dispatch(poseToDo(pose)),
   gameOverThunk: () => dispatch(gameOverThunk()),
   checkPoseSuccess: () => dispatch(checkPoseSuccess()),
-  flipPoseSuccess: () => dispatch(flipPoseSuccess())
+  flipPoseSuccess: () => dispatch(flipPoseSuccess()),
+  doEndFirstTimer: () => dispatch(doEndFirstTimer())
 });
 
 export default connect(

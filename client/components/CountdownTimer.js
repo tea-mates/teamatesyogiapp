@@ -1,6 +1,8 @@
 import React from "react";
+import { disableCountdown } from "../store/game";
+import { connect } from "react-redux";
 
-export default class CountdownTimer extends React.Component {
+class CountdownTimer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -9,6 +11,7 @@ export default class CountdownTimer extends React.Component {
     this.timer = 0;
     this.startTimer = this.startTimer.bind(this);
     this.countDown = this.countDown.bind(this);
+    this.killTimer = this.killTimer.bind(this);
   }
 
   componentDidMount() {
@@ -16,7 +19,7 @@ export default class CountdownTimer extends React.Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.timer);
+    this.killTimer();
   }
 
   startTimer() {
@@ -34,11 +37,29 @@ export default class CountdownTimer extends React.Component {
 
     // Check if we're at zero.
     if (seconds == 0) {
-      clearInterval(this.timer);
+      this.killTimer();
     }
+  }
+
+  killTimer() {
+    clearInterval(this.timer);
+    this.props.disableCountdown();
   }
 
   render() {
     return <div>{this.state.secondsLeft}</div>;
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  disableCountdown: () => dispatch(disableCountdown())
+});
+
+const mapState = state => ({
+  gameRound: state.gameReducer.gameRound
+});
+
+export default connect(
+  mapState,
+  mapDispatchToProps
+)(CountdownTimer);

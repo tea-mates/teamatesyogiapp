@@ -9,6 +9,7 @@ const RESET_POSE_SUCCESS = "RESET_POSE_SUCCESS";
 const DISABLE_COUNTDOWN = "DISABLE_COUNTDOWN";
 const UPDATE_SEQUENCE = "UPDATE_SEQUENCE";
 const NEXT_POSE_TO_DO = "NEXT_POSE_TO_DO";
+const END_FIRST_TIMER = "END_FIRST_TIMER";
 
 /**
  * ACTION CREATORS
@@ -41,6 +42,10 @@ const startCountdown = () => ({
 
 const endCountdown = () => ({
   type: DISABLE_COUNTDOWN
+});
+
+const endFirstTimer = () => ({
+  type: END_FIRST_TIMER
 });
 
 /**
@@ -101,6 +106,12 @@ export const nextRound = () => {
   };
 };
 
+export const doEndFirstTimer = () => {
+  return dispatch => {
+    dispatch(endFirstTimer());
+  };
+};
+
 /**
  * INITIAL STATE
  */
@@ -111,6 +122,7 @@ const defaultGame = {
   poseSequence: [],
   poseSuccess: false, //did they succeed to do the current pose
   poseName: "",
+  firstTimer: true,
   gameOver: false //set this to true if you reach 10 poses or you fail a pose
 };
 
@@ -131,6 +143,8 @@ export default function(state = defaultGame, action) {
       return { ...state, poseSuccess: false };
     case END_GAME:
       return { ...state, gameOver: true };
+    case END_FIRST_TIMER:
+      return { ...state, firstTimer: false };
     case UPDATE_SEQUENCE:
       return {
         ...state,
