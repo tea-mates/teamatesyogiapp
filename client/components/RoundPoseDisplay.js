@@ -24,9 +24,10 @@ class RoundPoseDisplay extends React.Component {
         {poseSequence.map((singlePose, idx) => {
           // console.log("singlePose: ", singlePose);
           // console.log("poseName: ", poseName);
+          console.log("%", idx, currentPoseSequenceIdx);
           return (
             <div key={idx} keyname={singlePose}>
-              {idx < currentPoseSequenceIdx || poseSuccess ? (
+              {idx < currentPoseSequenceIdx ? (
                 <button className="button-primary button-round button-small">
                   {idx}
                   {singlePose}
@@ -53,7 +54,7 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  poseToDo: pose => dispatch(poseToDo(pose))
+  poseToDo: () => dispatch(poseToDo())
 });
 
 export default connect(

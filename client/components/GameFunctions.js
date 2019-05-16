@@ -20,6 +20,7 @@ class GameFunctions extends React.Component {
     };
 
     this.beginNextRound = this.beginNextRound.bind(this);
+    this.handlePoseSuccess = this.handlePoseSuccess.bind(this);
     // this.whichPoseIsBeingChecked = this.whichPoseIsBeingChecked.bind(this);
   }
 
@@ -50,7 +51,11 @@ class GameFunctions extends React.Component {
       firstTimer,
       detectedPose,
       expectedPose,
-      checkPoseSuccess
+      poseBeingHighlighted,
+      checkPoseSuccess,
+      poseToDo,
+      poseSequence,
+      currentPoseSequenceIdx
     } = this.props;
     // if (this.state.nextPose === true) {
     //   this.setState({ nextPose: false });
@@ -60,12 +65,14 @@ class GameFunctions extends React.Component {
     // if (countdown === true) {
     //   this.whichPoseIsBeingChecked();
     // }
-    if (countdown === false) {
+    console.log("cdm", this.props);
+
+    // might need one more comparison here if we want round 2 to succeed
+    if (!countdown && !poseSuccess && !poseBeingHighlighted) {
       if (firstTimer) {
         doEndFirstTimer();
         beginCountdown();
       } else gameOverThunk();
-      console.log(this.props);
       // disableCountdown();
       // gameOverThunk();
     }
@@ -75,19 +82,38 @@ class GameFunctions extends React.Component {
     // }
 
     // for simulation !!!!
-    // if (!prevProps.expectedPose && this.props.expectedPose) {
-    //   setTimeout(checkPoseSuccess, 5000);
-    // }
+    // COMMENT THIS OUT when in production
+    if (!prevProps.expectedPose && this.props.expectedPose) {
+      setTimeout(this.handlePoseSuccess, 5000);
+    }
 
+    // this is the real deal, but we need accurate data
+    // being sent from the camera which we don't have right now
     const poseMatch = detectedPose === expectedPose;
     if (poseMatch && !poseSuccess) {
-      checkPoseSuccess();
+      this.handlePoseSuccess();
     }
+
     // if (this.props.pose === this.props.poseName) { //change pose to detectedPose and poseName to expectedPose
     //   this.props.checkPoseSuccess();
     // }
     // else if (countdown === false) gameOverThunk();
     // else this.props.gameOverThunk();
+  }
+
+  handlePoseSuccess() {
+    const {
+      currentPoseSequenceIdx,
+      poseSequence,
+      checkPoseSuccess,
+      nextRound,
+      poseToDo
+    } = this.props;
+    checkPoseSuccess();
+    const isLastPose = currentPoseSequenceIdx === poseSequence.length - 1;
+    console.log({ isLastPose });
+    if (isLastPose) nextRound();
+    else poseToDo();
   }
 
   beginNextRound() {
@@ -137,13 +163,14 @@ const mapState = state => ({
   expectedPose: state.gameReducer.poseName, // expected pose
   gameRound: state.gameReducer.gameRound,
   firstTimer: state.gameReducer.firstTimer,
-  poseBeingHighlighted: state.gameReducer.poseBeingHighlighted
+  poseBeingHighlighted: state.gameReducer.poseBeingHighlighted,
+  currentPoseSequenceIdx: state.gameReducer.currentPoseSequenceIdx
 });
 
 const mapDispatch = dispatch => ({
   nextRound: poseSequence => dispatch(nextRound(poseSequence)),
   beginCountdown: () => dispatch(beginCountdown()),
-  poseToDo: pose => dispatch(poseToDo(pose)),
+  poseToDo: () => dispatch(poseToDo()),
   gameOverThunk: () => dispatch(gameOverThunk()),
   checkPoseSuccess: () => dispatch(checkPoseSuccess()),
   flipPoseSuccess: () => dispatch(flipPoseSuccess()),

@@ -15,10 +15,8 @@ const HIGHLIGHT_POSE = "HIGHLIGHT_POSE";
 /**
  * ACTION CREATORS
  */
-const nextPoseToDo = pose => ({
-  //pose must be a string
-  type: NEXT_POSE_TO_DO,
-  pose
+const nextPoseToDo = () => ({
+  type: NEXT_POSE_TO_DO
 });
 
 const poseSuccess = () => ({
@@ -82,9 +80,9 @@ export const disableCountdown = () => {
   };
 };
 
-export const poseToDo = pose => {
+export const poseToDo = () => {
   return dispatch => {
-    dispatch(nextPoseToDo(pose));
+    dispatch(nextPoseToDo());
   };
 };
 
@@ -149,11 +147,14 @@ export default function(state = defaultGame, action) {
       return { ...state, countdown: true };
     case DISABLE_COUNTDOWN:
       return { ...state, countdown: false };
+    // eslint-disable-next-line no-case-declarations
     case NEXT_POSE_TO_DO:
+      const nextPoseIdx = state.currentPoseSequenceIdx + 1;
       return {
         ...state,
-        poseName: action.pose,
-        currentPoseSequenceIdx: state.currentPoseSequenceIdx + 1
+        poseName: state.poseSequence[nextPoseIdx],
+        currentPoseSequenceIdx: nextPoseIdx,
+        poseSuccess: false
       };
     case SUCCESS:
       return { ...state, poseSuccess: true };
@@ -173,7 +174,8 @@ export default function(state = defaultGame, action) {
         poseSequence: [...state.poseSequence, newPose],
         gameRound: state.gameRound + 1,
         currentPoseSequenceIdx: 0,
-        poseName: newPose
+        poseName: newPose,
+        poseSuccess: false
       };
     default:
       return state;

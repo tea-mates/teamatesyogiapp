@@ -190,7 +190,7 @@ const mapDispatch = dispatch => ({
   checkPoseSuccess: () => dispatch(checkPoseSuccess()),
   nextRound: poseSequence => dispatch(nextRound(poseSequence)),
   flipPoseSuccess: () => dispatch(flipPoseSuccess()),
-  poseToDo: pose => dispatch(poseToDo(pose))
+  poseToDo: () => dispatch(poseToDo())
 });
 
 export default connect(
