@@ -9,7 +9,8 @@ import {
   disableCountdown,
   checkPoseSuccess,
   flipPoseSuccess,
-  doEndFirstTimer
+  doEndFirstTimer,
+  endRound
 } from "../store/game";
 
 class GameFunctions extends React.Component {
@@ -82,27 +83,27 @@ class GameFunctions extends React.Component {
      * This will auto-trigger successful poses through each round.
      * Comment this section out if you're using a real camera.
      */
-    const l = this.props.poseSequence.length;
-    if (l !== prevProps.poseSequence.length) {
-      for (let i = 1; i <= l; i++) {
-        (i => {
-          setTimeout(() => {
-            this.handlePoseSuccess();
-          }, 7000 * i);
-        })(i);
-      }
-    }
+    // const l = this.props.poseSequence.length;
+    // if (l !== prevProps.poseSequence.length) {
+    //   for (let i = 1; i <= l; i++) {
+    //     (i => {
+    //       setTimeout(() => {
+    //         this.handlePoseSuccess();
+    //       }, 7000 * i);
+    //     })(i);
+    //   }
+    // }
 
     /**
      * FOR REAL -
      * This will use the actual poses detected via the webcam.
      * Comment this section out in simulation mode.
      */
-    // const poseMatch = detectedPose === expectedPose;
-    // console.log({ detectedPose, expectedPose });
-    // if (poseMatch && !poseSuccess && expectedPose) {
-    //   this.handlePoseSuccess();
-    // }
+    const poseMatch = detectedPose === expectedPose;
+    console.log({ detectedPose, expectedPose });
+    if (poseMatch && !poseSuccess && expectedPose) {
+      this.handlePoseSuccess();
+    }
   }
 
   handlePoseSuccess() {
@@ -111,13 +112,19 @@ class GameFunctions extends React.Component {
       poseSequence,
       checkPoseSuccess,
       nextRound,
-      poseToDo
+      endRound,
+      poseToDo,
+      disableCountdown
     } = this.props;
+
     checkPoseSuccess();
     const isLastPose = currentPoseSequenceIdx === poseSequence.length - 1;
     console.log({ isLastPose });
-    if (isLastPose) nextRound();
-    else poseToDo();
+    disableCountdown();
+    if (isLastPose) {
+      endRound();
+      nextRound();
+    } else poseToDo();
   }
 
   beginNextRound() {
@@ -177,11 +184,13 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   nextRound: poseSequence => dispatch(nextRound(poseSequence)),
   beginCountdown: () => dispatch(beginCountdown()),
+  disableCountdown: () => dispatch(disableCountdown()),
   poseToDo: () => dispatch(poseToDo()),
   gameOverThunk: () => dispatch(gameOverThunk()),
   checkPoseSuccess: () => dispatch(checkPoseSuccess()),
   flipPoseSuccess: () => dispatch(flipPoseSuccess()),
-  doEndFirstTimer: () => dispatch(doEndFirstTimer())
+  doEndFirstTimer: () => dispatch(doEndFirstTimer()),
+  endRound: () => dispatch(endRound())
 });
 
 export default connect(

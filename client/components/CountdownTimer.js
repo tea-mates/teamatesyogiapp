@@ -47,6 +47,9 @@ class CountdownTimer extends React.Component {
   killTimer() {
     console.log("@ KILLING COUNTDOWN", this.timer);
     clearInterval(this.timer);
+    // only kill the countdown if
+    // 1) the pose success is false
+    // 2) the round in progress is false
     this.props.disableCountdown();
   }
 

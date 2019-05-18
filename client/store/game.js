@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 /**
  * ACTION TYPES
  */
@@ -11,6 +12,7 @@ const UPDATE_SEQUENCE = "UPDATE_SEQUENCE";
 const NEXT_POSE_TO_DO = "NEXT_POSE_TO_DO";
 const END_FIRST_TIMER = "END_FIRST_TIMER";
 const HIGHLIGHT_POSE = "HIGHLIGHT_POSE";
+const END_OF_ROUND = "END_OF_ROUND";
 
 /**
  * ACTION CREATORS
@@ -41,6 +43,10 @@ const startCountdown = () => ({
 
 const endCountdown = () => ({
   type: DISABLE_COUNTDOWN
+});
+
+export const endRound = () => ({
+  type: END_OF_ROUND
 });
 
 const endFirstTimer = () => ({
@@ -127,6 +133,7 @@ export const highlightPose = pose => {
  */
 const defaultGame = {
   poses: ["TreePose", "GarlandPose", "MountainPose", "ShivaTwist"],
+  // poses: ["MountainPose"],
   firstTimer: true,
   countdown: false,
   gameRound: 0,
@@ -147,8 +154,13 @@ export default function(state = defaultGame, action) {
     case START_GAME: //starts game or starts checking for next pose
       return { ...state, countdown: true };
     case DISABLE_COUNTDOWN:
-      return { ...state, countdown: false, roundInProgress: false };
+      if (!state.poseSuccess) {
+        return { ...state, countdown: false, roundInProgress: false };
+      }
+      return { ...state, countdown: false };
     // eslint-disable-next-line no-case-declarations
+    case END_OF_ROUND:
+      return { ...state, roundInProgress: false };
     case NEXT_POSE_TO_DO:
       const nextPoseIdx = state.currentPoseSequenceIdx + 1;
       return {

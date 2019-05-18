@@ -84,7 +84,11 @@ class Camera extends Component {
         this.props.poseName
       );
     }
-    setTimeout(toggleStop, 11000);
+    /**
+     * ! IMPORTANT :
+     * Teammates need this so come back to it
+     */
+    // setTimeout(toggleStop, 11000);
   }
 
   // async promptCamera() {
