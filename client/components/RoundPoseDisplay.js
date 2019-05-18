@@ -24,7 +24,7 @@ class RoundPoseDisplay extends React.Component {
         {poseSequence.map((singlePose, idx) => {
           // console.log("singlePose: ", singlePose);
           // console.log("poseName: ", poseName);
-          console.log("%", idx, currentPoseSequenceIdx);
+          // console.log("%", idx, currentPoseSequenceIdx);
           return (
             <div key={idx} keyname={singlePose}>
               {idx < currentPoseSequenceIdx ? (

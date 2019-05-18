@@ -37,7 +37,7 @@ class GameFunctions extends React.Component {
     //        iii. repeat 5's logic until they complete all poses in the sequence successfully
     //    b. timeout / failure
 
-    this.props.nextRound();
+    // this.props.nextRound();
     this.setState({ nextPose: true });
   }
 
@@ -55,7 +55,9 @@ class GameFunctions extends React.Component {
       checkPoseSuccess,
       poseToDo,
       poseSequence,
-      currentPoseSequenceIdx
+      currentPoseSequenceIdx,
+      nextRound,
+      roundInProgress
     } = this.props;
     // if (this.state.nextPose === true) {
     //   this.setState({ nextPose: false });
@@ -68,11 +70,12 @@ class GameFunctions extends React.Component {
     console.log("cdm", this.props);
 
     //%%%%%% might need one more comparison here if we want round 2 to succeed %%%%%%
-    if (!countdown && !poseSuccess && !poseBeingHighlighted) {
+    if (!countdown && !poseSuccess && poseBeingHighlighted === "default") {
       if (firstTimer) {
         doEndFirstTimer();
-        beginCountdown();
-      } else gameOverThunk();
+        nextRound();
+        // beginCountdown();
+      } else if (!roundInProgress) gameOverThunk();
       // disableCountdown();
       // gameOverThunk();
     }
@@ -84,15 +87,16 @@ class GameFunctions extends React.Component {
     // for simulation !!!!
     // COMMENT THIS OUT when in production
     if (!prevProps.expectedPose && this.props.expectedPose) {
-      setTimeout(this.handlePoseSuccess, 5000);
+      setTimeout(this.handlePoseSuccess, 7000);
     }
 
     // this is the real deal, but we need accurate data
     // being sent from the camera which we don't have right now
-    const poseMatch = detectedPose === expectedPose;
-    if (poseMatch && !poseSuccess) {
-      this.handlePoseSuccess();
-    }
+    // const poseMatch = detectedPose === expectedPose;
+    // console.log({ detectedPose, expectedPose });
+    // if (poseMatch && !poseSuccess && expectedPose) {
+    //   this.handlePoseSuccess();
+    // }
 
     // if (this.props.pose === this.props.poseName) { //change pose to detectedPose and poseName to expectedPose
     //   this.props.checkPoseSuccess();
@@ -138,7 +142,9 @@ class GameFunctions extends React.Component {
 
   render() {
     const { countdown, poseBeingHighlighted } = this.props;
-    const startCountdown = countdown && !poseBeingHighlighted;
+    const startCountdown = countdown && poseBeingHighlighted === "default";
+    console.log({ countdown, poseBeingHighlighted });
+    console.log("should display countdown", startCountdown);
     return (
       <div>
         {startCountdown ? (
@@ -164,7 +170,8 @@ const mapState = state => ({
   gameRound: state.gameReducer.gameRound,
   firstTimer: state.gameReducer.firstTimer,
   poseBeingHighlighted: state.gameReducer.poseBeingHighlighted,
-  currentPoseSequenceIdx: state.gameReducer.currentPoseSequenceIdx
+  currentPoseSequenceIdx: state.gameReducer.currentPoseSequenceIdx,
+  roundInProgress: state.gameReducer.roundInProgress
 });
 
 const mapDispatch = dispatch => ({

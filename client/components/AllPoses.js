@@ -61,7 +61,7 @@ class AllPoses extends React.Component {
     //will need to start the countdown once the sequence of poses is shown to the user
     (l => {
       setTimeout(() => {
-        highlightPose("");
+        highlightPose("default");
         beginCountdown();
       }, poseTimeframeMs * l);
     })(l);

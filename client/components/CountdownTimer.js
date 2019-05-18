@@ -19,6 +19,7 @@ class CountdownTimer extends React.Component {
   }
 
   componentWillUnmount() {
+    console.log("@ component will unmount", this.timer);
     this.killTimer();
   }
 
@@ -29,6 +30,7 @@ class CountdownTimer extends React.Component {
   }
 
   countDown() {
+    console.log("@ counting down", this.timer);
     // Remove one second, set state so a re-render happens.
     let seconds = this.state.secondsLeft - 1;
     this.setState({
@@ -37,11 +39,13 @@ class CountdownTimer extends React.Component {
 
     // Check if we're at zero.
     if (seconds == 0) {
+      console.log("@ seconds reached 0", this.timer);
       this.killTimer();
     }
   }
 
   killTimer() {
+    console.log("@ KILLING COUNTDOWN", this.timer);
     clearInterval(this.timer);
     this.props.disableCountdown();
   }

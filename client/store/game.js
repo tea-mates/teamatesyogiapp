@@ -135,6 +135,7 @@ const defaultGame = {
   currentPoseSequenceIdx: -1, //the index of the current pose within a game round
   poseSuccess: false, //did they succeed to do the current pose
   poseName: "",
+  roundInProgress: false,
   gameOver: false //set this to true if you reach 10 poses or you fail a pose
 };
 
@@ -146,7 +147,7 @@ export default function(state = defaultGame, action) {
     case START_GAME: //starts game or starts checking for next pose
       return { ...state, countdown: true };
     case DISABLE_COUNTDOWN:
-      return { ...state, countdown: false };
+      return { ...state, countdown: false, roundInProgress: false };
     // eslint-disable-next-line no-case-declarations
     case NEXT_POSE_TO_DO:
       const nextPoseIdx = state.currentPoseSequenceIdx + 1;
@@ -165,7 +166,11 @@ export default function(state = defaultGame, action) {
     case END_FIRST_TIMER:
       return { ...state, firstTimer: false };
     case HIGHLIGHT_POSE:
-      return { ...state, poseBeingHighlighted: action.pose };
+      return {
+        ...state,
+        poseBeingHighlighted: action.pose,
+        roundInProgress: true
+      };
     // eslint-disable-next-line no-case-declarations
     case UPDATE_SEQUENCE:
       const newPose = _getRandomPose();
@@ -173,9 +178,11 @@ export default function(state = defaultGame, action) {
         ...state,
         poseSequence: [...state.poseSequence, newPose],
         gameRound: state.gameRound + 1,
+        // countdown: false, // removing because countdown should be false before updateSequence
         currentPoseSequenceIdx: 0,
         poseName: newPose,
-        poseSuccess: false
+        poseSuccess: false,
+        roundInProgress: true
       };
     default:
       return state;
