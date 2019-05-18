@@ -18,6 +18,9 @@ export const Navbar = props => {
             <li>
               <Link to="/">Home</Link>
             </li>
+            <li>
+              <Link to="/help">Help</Link>
+            </li>
           </ul>
         </div>
       </nav>

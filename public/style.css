@@ -1,6 +1,7 @@
 .aboutUsImage {
   width: 100;
   height: 100px;
+  border-radius: 15px;
 }
 
 #aboutUsDiv {
@@ -18,11 +19,10 @@
 }
 
 .webcam {
-  margin: 0 auto;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 6px;
- }
+  max-width: 700px;
+  padding: 10px;
+  margin-right: 50px;
+}
 
 #demogif {
   width: 200px;
@@ -84,17 +84,31 @@
 }
 
 #resultHeading {
-  padding: 30px;
+  padding: 10px;
 }
 
 .progress-bar {
   margin: 60 0 60 0;
 }
 
-.card {
+.aboutUsCard {
   overflow-wrap: initial;
-  overflow: scroll;
+  overflow: auto;
   height: 350px;
+  background-color: '';
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  /* word-wrap: break-word; */
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  margin: 15px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(224, 224, 224, 0.5);
 }
 
 .button-warning > a {
@@ -130,14 +144,59 @@ body {
 }
 
 .boxed {
-  border: solid 2px yellow;
+  border: solid 4px yellow;
   margin: 30px;
-  padding: 30px;
+  padding: 10px;
   background-color: white;
+  align-items: flex-start;
+}
+
+.boxedGame {
+  display: flex;
+  border: solid 4px yellow;
+  margin: 30px;
+  padding: 5px;
+  background-color: white;
+  align-items: flex-start;
+  width: 340px;
+  height: 315px;
+  justify-content: center;
 }
 
 .cameraDiv {
-  position: relative;
   left: 700px;
   top: 600px;
+}
+
+.container {
+  background: #ffd107;
+  text-align: center;
+  height: auto;
+  width: 75%;
+  line-height: 1.5;
+  margin: 5% 10% 10% 10%;
+  color: #424242;
+}
+
+#head {
+  margin-top: 30px;
+}
+.resultImage {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.countdown {
+  font-size: 75px;
+  color: red;
+}
+
+.referImg {
+  width: 200px;
+  height: 400px;
+  padding-top: 30px;
+}
+
+.game-card {
+  height: 280px;
 }

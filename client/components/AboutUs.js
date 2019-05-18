@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const AboutUs = () => {
   return (
@@ -6,7 +6,7 @@ const AboutUs = () => {
       <h1 className="h2">About Us</h1>
       <div className="row align-center">
         <div className="col col-md-6">
-          <div className="card">
+          <div className="aboutUsCard">
             <h3 className="card-title">Janavi</h3>
             <div>
               <img
@@ -31,7 +31,7 @@ const AboutUs = () => {
           </div>
         </div>
         <div className="col col-md-6">
-          <div className="card">
+          <div className="aboutUsCard">
             <h3 className="card-title">Lily</h3>
             <div>
               <img
@@ -39,7 +39,10 @@ const AboutUs = () => {
                 src="https://media.licdn.com/dms/image/C4E03AQGYX3hwLklyVw/profile-displayphoto-shrink_800_800/0?e=1562803200&v=beta&t=SYDi6aIbe3W-8WW4dfBy-6XLEjK8ENASM-sqlMTqZDA"
               />
             </div>
-            <p>I'm an autodidact that enjoys learning.</p>
+            <p>
+              I'm an autodidactic software engineer who has transitioned from
+              Education to Tech.
+            </p>
             <ul className="card-actions">
               <li>
                 <button className="button-warning">
@@ -52,7 +55,7 @@ const AboutUs = () => {
           </div>
         </div>
         <div className="col col-md-6">
-          <div className="card">
+          <div className="aboutUsCard">
             <h3 className="card-title">Priyanka</h3>
             <div>
               <img
@@ -77,7 +80,7 @@ const AboutUs = () => {
           </div>
         </div>
         <div className="col col-md-6">
-          <div className="card">
+          <div className="aboutUsCard">
             <h3 className="card-title">Sandra</h3>
             <div>
               <img
@@ -86,11 +89,10 @@ const AboutUs = () => {
               />
             </div>
             <p>
-              While working in the Financial Services industry for over 7 years,
-              I spent much of my time employing technology to automate processes
-              and educate clients on the power of User Interface platforms. As I
-              progress through my career, I am ready to bring those User
-              Interface platforms and automated solutions to fruition.
+              A Software Engineer previously dedicated to educating clients on
+              the power of User Interface platforms. Now, I invest my time in
+              bringing User Interface platforms and automated solutions to
+              fruition.
             </p>
             <ul className="card-actions">
               <li>

@@ -3,7 +3,7 @@ import SharingResults from './SharingResults';
 import { Link } from 'react-router-dom';
 
 export default function(props) {
-  let percentage = props.percentage
+  let percentage = props.percentage;
   return (
     <div id="results">
       <div id="resultHeading">
@@ -12,7 +12,10 @@ export default function(props) {
       <div id="resultsContent">
         {percentage > 70 ? (
           <div>
-            <img src="https://2.bp.blogspot.com/-beuQ7vWss3A/Vanr0qdReHI/AAAAAAAAJyQ/429Czd7AAh8/s1600/smiley.jpg" />
+            <img
+              className="resultImage"
+              src="https://2.bp.blogspot.com/-beuQ7vWss3A/Vanr0qdReHI/AAAAAAAAJyQ/429Czd7AAh8/s1600/smiley.jpg"
+            />
             <div className="progress-bar striped animated">
               <span
                 className="progress-bar-green"
@@ -23,7 +26,10 @@ export default function(props) {
           </div>
         ) : 40 < percentage && percentage < 69 ? (
           <div>
-            <img src="https://i.pinimg.com/originals/5b/7e/3a/5b7e3a8836afd29f597322263f9f0552.jpg" />
+            <img
+              className="resultImage"
+              src="https://i.pinimg.com/originals/5b/7e/3a/5b7e3a8836afd29f597322263f9f0552.jpg"
+            />
             <div className="progress-bar striped animated">
               <span
                 className="progress-bar-blue"
@@ -34,7 +40,10 @@ export default function(props) {
           </div>
         ) : (
           <div>
-            <img src="https://www.nutritionnew.com/wp-content/uploads/2018/07/Yoga-Mats-Cons.png" />
+            <img
+              className="resultImage"
+              src="https://www.nutritionnew.com/wp-content/uploads/2018/07/Yoga-Mats-Cons.png"
+            />
             <div className="progress-bar striped animated">
               <span
                 className="progress-bar-red"
@@ -45,11 +54,14 @@ export default function(props) {
           </div>
         )}
       </div>
+
       <div>
-        <Link to='/train'>
+        <Link to="/train">
           <button> All Poses</button>
         </Link>
-        <div><SharingResults /></div>
+        <br />
+        <br />
+        <div>{/* <SharingResults /> */}</div>
       </div>
     </div>
   );

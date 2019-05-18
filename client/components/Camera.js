@@ -32,8 +32,7 @@ class Camera extends Component {
     imageScaleFactor: 0.5,
     skeletonColor: "#ffadea",
     skeletonLineWidth: 6,
-    loadingText: "Loading...please be patient...",
-    currentPoseInARound: ""
+    loadingText: "Loading...please be patient..."
   };
 
   constructor(props) {
@@ -75,13 +74,7 @@ class Camera extends Component {
         this.setState({ loading: false });
       }, 200);
     }
-    //&& this.props.poseName !== ""
     if (this.canvas) {
-      // if (this.props.poseName === "") {
-      //   poseToDo("ShivaTwist");
-      // }
-      console.log("the this.props.poseName is: ", this.props.poseName);
-      //before this is called there must be a poseName available
       this.detectPose(
         this.props,
         this.canvas,
@@ -90,10 +83,6 @@ class Camera extends Component {
         this.video,
         this.props.poseName
       );
-      // if (this.props.pose === this.props.poseName) {
-      //   this.props.checkPoseSuccess();
-      //   this.props.flipPoseSuccess();
-      // }
     }
     setTimeout(toggleStop, 11000);
   }
