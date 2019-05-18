@@ -155,10 +155,15 @@ export default function(state = defaultGame, action) {
         ...state,
         poseName: state.poseSequence[nextPoseIdx],
         currentPoseSequenceIdx: nextPoseIdx,
-        poseSuccess: false
+        poseSuccess: false,
+        countdown: true
       };
     case SUCCESS:
-      return { ...state, poseSuccess: true };
+      return {
+        ...state,
+        poseSuccess: true,
+        countdown: false
+      };
     case RESET_POSE_SUCCESS:
       return { ...state, poseSuccess: false };
     case END_GAME:

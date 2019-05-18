@@ -30,7 +30,7 @@ class AllPoses extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      poseTimeframeMs: 2000 //this controls how long each pose is highlighted for
+      poseTimeframeMs: 2200 //this controls how long each pose is highlighted for
     };
   }
 
@@ -53,7 +53,10 @@ class AllPoses extends React.Component {
         //this anon fn slows down the for loop
         setTimeout(() => {
           let currPose = poseSequence[i];
-          highlightPose(currPose);
+          highlightPose("NONE");
+          setTimeout(() => {
+            highlightPose(currPose);
+          }, 200);
         }, poseTimeframeMs * i);
       })(i); //this invokes the outer anon fn
     }

@@ -3,3 +3,12 @@ in GameFunctions.js lines 83-85.
 
 the problem is when the countdown unmounts, it somehow triggers the
 game over view in line 73 GameFunctions.js
+
+
+
+5/18/19
+1) The countdown should reset after a successful pose within a round
+2) There should be some sort of flicker if a pose is the same as the one before
+
+3) There should be some sort of indicator that the round was successful, and we're moving onto the next round
+4) Hook up the camera

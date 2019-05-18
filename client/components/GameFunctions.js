@@ -74,35 +74,35 @@ class GameFunctions extends React.Component {
       if (firstTimer) {
         doEndFirstTimer();
         nextRound();
-        // beginCountdown();
       } else if (!roundInProgress) gameOverThunk();
-      // disableCountdown();
-      // gameOverThunk();
-    }
-    // if (poseSuccess) {
-    //   this.props.flipPoseSuccess();
-    //   // this.props.nextRound();
-    // }
-
-    // for simulation !!!!
-    // COMMENT THIS OUT when in production
-    if (!prevProps.expectedPose && this.props.expectedPose) {
-      setTimeout(this.handlePoseSuccess, 7000);
     }
 
-    // this is the real deal, but we need accurate data
-    // being sent from the camera which we don't have right now
+    /**
+     * FOR SIMULATION -
+     * This will auto-trigger successful poses through each round.
+     * Comment this section out if you're using a real camera.
+     */
+    const l = this.props.poseSequence.length;
+    if (l !== prevProps.poseSequence.length) {
+      for (let i = 1; i <= l; i++) {
+        (i => {
+          setTimeout(() => {
+            this.handlePoseSuccess();
+          }, 7000 * i);
+        })(i);
+      }
+    }
+
+    /**
+     * FOR REAL -
+     * This will use the actual poses detected via the webcam.
+     * Comment this section out in simulation mode.
+     */
     // const poseMatch = detectedPose === expectedPose;
     // console.log({ detectedPose, expectedPose });
     // if (poseMatch && !poseSuccess && expectedPose) {
     //   this.handlePoseSuccess();
     // }
-
-    // if (this.props.pose === this.props.poseName) { //change pose to detectedPose and poseName to expectedPose
-    //   this.props.checkPoseSuccess();
-    // }
-    // else if (countdown === false) gameOverThunk();
-    // else this.props.gameOverThunk();
   }
 
   handlePoseSuccess() {
