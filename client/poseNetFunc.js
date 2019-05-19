@@ -1,7 +1,7 @@
 import { drawKeyPoints, drawSkeleton } from './components/utils';
 import { compareObj, flatImageData, parts } from './Data/finalData';
 import { normArrGen } from './Data/flatArrGen';
-import { compare, cosineDistanceMatching } from './cosineFunc';
+import { compare} from './cosineFunc';
 import { stop } from './components/Camera';
 import { gotResult,updateStop } from './store/trainer';
 import store from './store';
