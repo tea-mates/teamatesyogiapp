@@ -46,14 +46,14 @@ class PoseNet extends Component {
       stop = null;
       await this.setupCamera();
     } catch (error) {
-      throw new Error(
+      console.error(
         'This browser does not support video capture, or this device does not have a camera'
       );
     }
     try {
       this.posenet = await posenet.load();
     } catch (error) {
-      throw new Error('PoseNet failed to load');
+      console.error('PoseNet failed to load');
     } finally {
       setTimeout(() => {
         this.setState({ loading: false });
