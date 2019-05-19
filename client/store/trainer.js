@@ -20,13 +20,14 @@ export const reset = ()=>({
   type: RESET
 })
 
-
+//Initial state
 let initialState = {
   pose:'',
   score:0,
   stop:false
 }
 
+//Reducer
 export default function(state=initialState,action){
   switch (action.type){
     case GET_RESULT:
