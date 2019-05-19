@@ -12,11 +12,11 @@ class PoseNet extends Component {
     //video sizing variables
     videoWidth: 900,
     videoHeight: 700,
-    flipHorizontal: true, // we dont flip, in canvas it is drawing on the other half
+    flipHorizontal: true,
     algorithm: 'single-pose',
     showVideo: true,
     showSkeleton: true,
-    minPoseConfidence: 0.1, // at what accuracy of estimation you want to draw
+    minPoseConfidence: 0.1,
     minPartConfidence: 0.5,
     maxPoseDetections: 2,
     nmsRadius: 20,
