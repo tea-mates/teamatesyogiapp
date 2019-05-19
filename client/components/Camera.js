@@ -1,4 +1,3 @@
-//import { drawKeyPoints, drawSkeleton } from './utils';
 import React, { Component } from 'react';
 import * as posenet from '@tensorflow-models/posenet';
 import { detectPose, poseDetectionFrame } from '../poseNetFunc';
