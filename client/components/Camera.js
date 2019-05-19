@@ -39,7 +39,6 @@ class PoseNet extends Component {
 
   getVideo = elem => {
     this.video = elem;
-    // console.log("in getVideo fn this refers to: ", this);
   };
 
   async componentDidMount() {
