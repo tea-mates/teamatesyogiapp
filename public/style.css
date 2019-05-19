@@ -200,3 +200,7 @@ body {
 .game-card {
   height: 280px;
 }
+
+.marginAdjust{
+  margin-top: -70px;
+}

@@ -31,8 +31,9 @@ const Demo = () => {
           allowFullScreen
         />
         </div>
-        <div className='container'>
+        <div className='container marginAdjust'>
         <h4>A webapp built and designed for everyone.</h4>
+        <br />
         <p>
           “Change is not something that we should fear. Rather, it is something
           that we should welcome. For without change, nothing in this world
