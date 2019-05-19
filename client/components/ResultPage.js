@@ -1,5 +1,4 @@
 import React from 'react';
-import SharingResults from './SharingResults';
 import { Link } from 'react-router-dom';
 
 export default function(props) {
