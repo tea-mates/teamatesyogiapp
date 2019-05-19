@@ -5,6 +5,7 @@ const AboutUs = () => {
     <section>
       <h1 className="h2">About Us</h1>
       <div className="row align-center">
+      {/* Janavi Anand */}
         <div className="col col-md-6">
           <div className="aboutUsCard">
             <h3 className="card-title">Janavi</h3>
@@ -30,6 +31,7 @@ const AboutUs = () => {
             </ul>
           </div>
         </div>
+        {/* Lily Zdansky */}
         <div className="col col-md-6">
           <div className="aboutUsCard">
             <h3 className="card-title">Lily</h3>
@@ -54,6 +56,7 @@ const AboutUs = () => {
             </ul>
           </div>
         </div>
+        {/* Priyanka Garg */}
         <div className="col col-md-6">
           <div className="aboutUsCard">
             <h3 className="card-title">Priyanka</h3>
@@ -79,6 +82,7 @@ const AboutUs = () => {
             </ul>
           </div>
         </div>
+        {/* Sandra Olascoaga */}
         <div className="col col-md-6">
           <div className="aboutUsCard">
             <h3 className="card-title">Sandra</h3>
