@@ -100,6 +100,7 @@ class PoseNet extends Component {
       };
     });
   }
+  // Stop camera
   componentWillUnmount() {
     let track = stream.getTracks()[0];
     track.stop();
