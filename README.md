@@ -19,5 +19,10 @@ or
 
 APP NAVIGATION
 
+1. If you are new to the art of Yoga,  check out the Help section, located in the Navigation bar, to read a walkthrough of each pose or view a Demo by clicking on the See Demo button located on the homepage.
+2. Once you know how to do the poses, head over to the practice section where you have the option to select the yoga pose you wish to practice. Your own personal coach analyzes your pose  and  provides you  with feedback.
+3. Once the video appears on the screen, the key to success is to hold the pose! Finally, you receive feedback in the form of a percentage score which is calculated based on the x and y coordinates received from PoseNet.
+
+To learn more about the software team behind this app, check out the About Us section. There you also have the opportunity to navigate to our LinkedIn page and connect with us!
 
 
