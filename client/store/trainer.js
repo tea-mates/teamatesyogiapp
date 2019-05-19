@@ -1,8 +1,10 @@
 
+//Constants
 const GET_RESULT = 'GET_RESULT'
 const STOP = 'STOP'
 const RESET = 'RESET'
 
+//Action creators
 export const gotResult = (result,score)=>({
   type: GET_RESULT,
   result,
@@ -17,6 +19,7 @@ export const updateStop = ()=>({
 export const reset = ()=>({
   type: RESET
 })
+
 
 let initialState = {
   pose:'',
