@@ -1,8 +1,10 @@
 
+//Constants
 const GET_RESULT = 'GET_RESULT'
 const STOP = 'STOP'
 const RESET = 'RESET'
 
+//Action creators
 export const gotResult = (result,score)=>({
   type: GET_RESULT,
   result,
@@ -18,12 +20,14 @@ export const reset = ()=>({
   type: RESET
 })
 
+//Initial state
 let initialState = {
   pose:'',
   score:0,
   stop:false
 }
 
+//Reducer
 export default function(state=initialState,action){
   switch (action.type){
     case GET_RESULT:

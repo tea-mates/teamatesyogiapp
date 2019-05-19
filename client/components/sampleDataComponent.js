@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import treePoseUrls from "../../SampleTreePoseData";
 import butterflyPoseUrls from "../../SampleButterflyPoseData";
 
 export default class DataViewer extends Component {

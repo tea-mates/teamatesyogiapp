@@ -1,4 +1,3 @@
-//import { drawKeyPoints, drawSkeleton } from './utils';
 import React, { Component } from 'react';
 import * as posenet from '@tensorflow-models/posenet';
 import { detectPose, poseDetectionFrame } from '../poseNetFunc';
@@ -12,11 +11,11 @@ class PoseNet extends Component {
     //video sizing variables
     videoWidth: 900,
     videoHeight: 700,
-    flipHorizontal: true, // we dont flip, in canvas it is drawing on the other half
+    flipHorizontal: true,
     algorithm: 'single-pose',
     showVideo: true,
     showSkeleton: true,
-    minPoseConfidence: 0.1, // at what accuracy of estimation you want to draw
+    minPoseConfidence: 0.1,
     minPartConfidence: 0.5,
     maxPoseDetections: 2,
     nmsRadius: 20,
@@ -39,7 +38,6 @@ class PoseNet extends Component {
 
   getVideo = elem => {
     this.video = elem;
-    // console.log("in getVideo fn this refers to: ", this);
   };
 
   async componentDidMount() {
@@ -47,14 +45,14 @@ class PoseNet extends Component {
       stop = null;
       await this.setupCamera();
     } catch (error) {
-      throw new Error(
+      console.error(
         'This browser does not support video capture, or this device does not have a camera'
       );
     }
     try {
       this.posenet = await posenet.load();
     } catch (error) {
-      throw new Error('PoseNet failed to load');
+      console.error('PoseNet failed to load');
     } finally {
       setTimeout(() => {
         this.setState({ loading: false });
@@ -101,6 +99,7 @@ class PoseNet extends Component {
       };
     });
   }
+  // Stop camera
   componentWillUnmount() {
     let track = stream.getTracks()[0];
     track.stop();

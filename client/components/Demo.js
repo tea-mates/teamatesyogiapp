@@ -2,8 +2,26 @@ import React from 'react';
 
 const Demo = () => {
   return (
-    <div>
-      <div className="container">
+      <div>
+        <div className="container">
+          <h4>How to use the App</h4>
+          <div className="stepper">
+          <div className="step">
+              <p className="step-number">1</p>
+              <p>If you are new to the art of Yoga,  check out the Help section, located in the Navigation bar, to read a walkthrough of each pose.</p>
+
+          </div>
+          <div className="step">
+              <p className="step-number">2</p>
+              <p>Once you know how to do the poses, head over to the practice section where you have the option to select the yoga pose you wish to practice. Your own personal coach analyzes your pose  and  provides you  with feedback.</p>
+
+          </div>
+          <div className="step">
+              <p className="step-number">3</p>
+              <p>Once the video appears on the screen, the key to success is to HOLD THE POSE! Finally, you receive feedback in the form of a percentage score which is calculated based on the x and y coordinates received from PoseNet. </p>
+          </div>
+        </div>
+        <br />
         <iframe
           width="700"
           height="400"
@@ -12,9 +30,10 @@ const Demo = () => {
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         />
+        </div>
+        <div className='container marginAdjust'>
+        <h4>A webapp built and designed for everyone.</h4>
         <br />
-        <br />
-        <p>A webapp built and designed for everyone.</p>
         <p>
           “Change is not something that we should fear. Rather, it is something
           that we should welcome. For without change, nothing in this world

@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-//import { poseToDo } from "../store/game";
 
 class RoundPoseDisplay extends React.Component {
   componentDidUpdate() {

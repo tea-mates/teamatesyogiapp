@@ -5,7 +5,7 @@ import RoundPoseDisplay from './RoundPoseDisplay';
 
 const poses = [
   {
-    name: 'TreePose', //the images need to be updated
+    name: 'TreePose',
     imageUrl: 'https://i.imgur.com/MWPBVms.png',
     highlight: 'https://i.imgur.com/GoTbFCM.png',
   },
@@ -20,7 +20,7 @@ const poses = [
     highlight: 'https://i.imgur.com/y4e9Sxj.png',
   },
   {
-    name: 'ShivaTwist', //the images need to be updated
+    name: 'ShivaTwist',
     imageUrl: 'https://i.imgur.com/LXeq1aU.png',
     highlight: 'https://i.imgur.com/MGn4IU1.png',
   },
@@ -51,7 +51,7 @@ class AllPoses extends React.Component {
     const l = poseSequence.length;
     for (let i = 0; i < l; i++) {
       (i => {
-        //this anon fn slows down the for loop
+        //this fn slows down the for loop
         setTimeout(() => {
           let currPose = poseSequence[i];
           this.setState({ poseBeingHighlighted: currPose });
