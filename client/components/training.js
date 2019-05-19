@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export const poses = [
   {
-    name: 'MountainPose', //the images need to be updated
+    name: 'MountainPose',
     imageUrl:
       'https://www.yogapedia.com/images/uploads/792b80fd0c884040bbcfaf14656788f7.png',
     select: '',
