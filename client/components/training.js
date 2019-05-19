@@ -21,7 +21,7 @@ export const poses = [
     select: '',
   },
   {
-    name: 'TreePose', //the images need to be updated
+    name: 'TreePose',
     imageUrl:
       'https://www.yogapedia.com/images/uploads/8182ced0e2784fc1b5737f8bda1de28a.png',
     select: '',
