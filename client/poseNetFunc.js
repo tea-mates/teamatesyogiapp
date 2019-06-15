@@ -1,10 +1,10 @@
-import { drawKeyPoints, drawSkeleton } from './components/utils';
-import { compareObj, flatImageData, parts } from './Data/finalData';
-import { normArrGen } from './Data/flatArrGen';
-import { compare, cosineDistanceMatching } from './cosineFunc';
-import { stop } from './components/Camera';
-import { gotResult,updateStop } from './store/trainer';
-import store from './store';
+import { drawKeyPoints, drawSkeleton } from "./components/utils";
+import { compareObj, flatImageData, parts } from "./Data/finalData";
+import { normArrGen } from "./Data/flatArrGen";
+import { compare, cosineDistanceMatching } from "./cosineFunc";
+import { stop } from "./components/Camera";
+import { gotResult, updateStop } from "./store/trainer";
+import store from "./store";
 
 export function detectPose(
   props,
@@ -17,15 +17,21 @@ export function detectPose(
   const { videoWidth, videoHeight } = props;
   const canvas = argcanvas;
 
-  const canvasContext = canvas.getContext('2d');
+  const canvasContext = canvas.getContext("2d");
 
   canvas.width = videoWidth;
   canvas.height = videoHeight;
 
-  poseDetectionFrame(canvasContext, props, posenet, video,poseName);
+  poseDetectionFrame(canvasContext, props, posenet, video, poseName);
 }
 
-export function poseDetectionFrame(canvasContext, props, posenet, argvideo,poseName) {
+export function poseDetectionFrame(
+  canvasContext,
+  props,
+  posenet,
+  argvideo,
+  poseName
+) {
   const {
     algorithm,
     imageScaleFactor,
@@ -41,7 +47,7 @@ export function poseDetectionFrame(canvasContext, props, posenet, argvideo,poseN
     showPoints,
     showSkeleton,
     skeletonColor,
-    skeletonLineWidth,
+    skeletonLineWidth
   } = props;
 
   const posenetModel = posenet;
@@ -50,7 +56,7 @@ export function poseDetectionFrame(canvasContext, props, posenet, argvideo,poseN
     let poses = [];
 
     switch (algorithm) {
-      case 'single-pose': {
+      case "single-pose": {
         const pose = await posenetModel.estimateSinglePose(
           video,
           imageScaleFactor,
@@ -59,10 +65,10 @@ export function poseDetectionFrame(canvasContext, props, posenet, argvideo,poseN
         );
         poses.push(pose);
         let refPoses = [
-          'TreePose',
-          'GarlandPose',
-          'MountainPose',
-          'ShivaTwist',
+          "TreePose",
+          "GarlandPose",
+          "MountainPose",
+          "ShivaTwist"
         ];
 
         let index = refPoses.indexOf(poseName);
@@ -72,10 +78,15 @@ export function poseDetectionFrame(canvasContext, props, posenet, argvideo,poseN
         let normArray1 = normArrGen(poses);
 
         let minCosineDistance = compare(normArray1, flatRefImage);
-        if (minCosineDistance > 0.4) {
-          store.dispatch(gotResult('BadPose', minCosineDistance));
-        } else {
-          store.dispatch(gotResult(compareObj[index].pose, minCosineDistance));
+        const gameState = store.getState().gameReducer;
+        if (gameState.countdown) {
+          if (minCosineDistance > 0.4) {
+            store.dispatch(gotResult("BadPose", minCosineDistance));
+          } else {
+            store.dispatch(
+              gotResult(compareObj[index].pose, minCosineDistance)
+            );
+          }
         }
         break;
       }
@@ -112,9 +123,9 @@ export function poseDetectionFrame(canvasContext, props, posenet, argvideo,poseN
       }
     });
     if (!stop) {
-      requestAnimationFrame(findPoseDetectionFrame)
-    }else{
-      store.dispatch(updateStop())
+      requestAnimationFrame(findPoseDetectionFrame);
+    } else {
+      store.dispatch(updateStop());
     }
   };
 
