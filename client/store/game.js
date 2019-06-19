@@ -154,13 +154,13 @@ export default function(state = defaultGame, action) {
     case START_GAME: //starts game or starts checking for next pose
       return { ...state, countdown: true };
     case DISABLE_COUNTDOWN:
-      if (!state.poseSuccess) {
+      if (!state.poseSuccess && state.countdown && state.roundInProgress) {
         return { ...state, countdown: false, roundInProgress: false };
       }
       return { ...state, countdown: false };
     // eslint-disable-next-line no-case-declarations
     case END_OF_ROUND:
-      return { ...state, roundInProgress: false };
+      return { ...state, roundInProgress: false, countdown: false };
     case NEXT_POSE_TO_DO:
       const nextPoseIdx = state.currentPoseSequenceIdx + 1;
       return {
@@ -191,13 +191,14 @@ export default function(state = defaultGame, action) {
     // eslint-disable-next-line no-case-declarations
     case UPDATE_SEQUENCE:
       const newPose = _getRandomPose();
+      const newPoseSequence = [...state.poseSequence, newPose];
       return {
         ...state,
-        poseSequence: [...state.poseSequence, newPose],
+        poseSequence: newPoseSequence,
         gameRound: state.gameRound + 1,
         // countdown: false, // removing because countdown should be false before updateSequence
         currentPoseSequenceIdx: 0,
-        poseName: newPose,
+        poseName: newPoseSequence[0],
         poseSuccess: false,
         roundInProgress: true
       };
