@@ -12,6 +12,7 @@ import {
   doEndFirstTimer,
   endRound
 } from "../store/game";
+import { reset } from "../store/trainer";
 
 class GameFunctions extends React.Component {
   constructor(props) {
@@ -114,10 +115,12 @@ class GameFunctions extends React.Component {
       nextRound,
       endRound,
       poseToDo,
-      disableCountdown
+      disableCountdown,
+      resetTrainer
     } = this.props;
 
     checkPoseSuccess();
+    resetTrainer();
     const isLastPose = currentPoseSequenceIdx === poseSequence.length - 1;
     console.log({ isLastPose });
     disableCountdown();
@@ -190,7 +193,8 @@ const mapDispatch = dispatch => ({
   checkPoseSuccess: () => dispatch(checkPoseSuccess()),
   flipPoseSuccess: () => dispatch(flipPoseSuccess()),
   doEndFirstTimer: () => dispatch(doEndFirstTimer()),
-  endRound: () => dispatch(endRound())
+  endRound: () => dispatch(endRound()),
+  resetTrainer: () => dispatch(reset())
 });
 
 export default connect(
